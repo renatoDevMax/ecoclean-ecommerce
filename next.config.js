@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  poweredByHeader: false,
   images: {
     domains: [
       'res.cloudinary.com', 
@@ -44,6 +46,10 @@ const nextConfig = {
     ],
     unoptimized: true
   },
+  experimental: {
+    optimizeFonts: true,
+    optimizePackageImports: ['@nextui-org/react']
+  }
 }
 
 module.exports = nextConfig 
