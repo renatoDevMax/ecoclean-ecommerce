@@ -21,7 +21,6 @@ const nextConfig = {
       "cdn.awsli.com.br",
       "genco.com.br",
       "http2.mlstatic.com",
-      // Domínios adicionais para imagens de produtos
       "m.media-amazon.com",
       "cdn-cosmos.bluesoft.com.br",
       "a-static.mlcdn.com.br",
@@ -45,10 +44,6 @@ const nextConfig = {
       }
     ],
     unoptimized: true
-  },
-  experimental: {
-    optimizeFonts: true,
-    optimizePackageImports: ['@nextui-org/react']
   }
 }
 
