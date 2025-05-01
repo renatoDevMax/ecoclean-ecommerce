@@ -1,29 +1,65 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = 'mongodb+srv://renatodevmaximiano:maxjr1972@clusterrenato.asdih.mongodb.net/Banco_de_Produtos?retryWrites=true&w=majority&appName=ClusterRenato';
+const MONGODB_URI =
+  'mongodb+srv://renatodevfidelidade:maxjr1972@clusterrenato.asbtntk.mongodb.net/ecoFidelidade?retryWrites=true&w=majority&appName=clusterRenato';
 
-// Função para conectar ao MongoDB
+if (!MONGODB_URI) {
+  throw new Error('A variável MONGODB_URI não está definida');
+}
+
+/**
+ * Variável global para controlar conexões
+ */
+let isConnected = false;
+
 export async function connectToDatabase() {
-  try {
-    if (mongoose.connection.readyState >= 1) {
-      return mongoose.connection;
-    }
+  if (isConnected) {
+    return;
+  }
 
-    return await mongoose.connect(MONGODB_URI);
+  try {
+    await mongoose.connect(MONGODB_URI);
+    isConnected = true;
+    console.log('Conectado ao MongoDB');
   } catch (error) {
     console.error('Erro ao conectar ao MongoDB:', error);
     throw error;
   }
 }
 
-// Esquema para o modelo de Produto
-const ProdutoSchema = new mongoose.Schema({
-  nome: { type: String, required: true },
-  valor: { type: Number, required: true },
-  descricao: { type: String, required: true },
-  imagem: { type: String, required: true },
-  categoria: { type: String, required: true }
-});
+export default connectToDatabase;
 
-// Criando o modelo Produto (se não existir ainda)
-export const Produto = mongoose.models.Produto || mongoose.model('Produto', ProdutoSchema, 'Produtos'); 
+// Interface do Produto
+interface IProduto {
+  nome: string;
+  preco: number;
+  descricao: string;
+  categoria: string;
+  imagem: string;
+  destaque: boolean;
+  cod: string;
+  ativado: boolean;
+}
+
+// Esquema para o modelo de Produto
+const ProdutoSchema = new mongoose.Schema<IProduto>(
+  {
+    nome: { type: String, required: true },
+    preco: { type: Number, required: true },
+    descricao: { type: String, default: '' },
+    categoria: { type: String, default: '' },
+    imagem: { type: String, required: true },
+    destaque: { type: Boolean, default: false },
+    cod: { type: String, required: true, unique: true },
+    ativado: { type: Boolean, default: true },
+  },
+  { timestamps: true }
+);
+
+// Verificar se estamos no ambiente do servidor antes de criar o modelo
+const isServer = typeof window === 'undefined';
+
+// Criando o modelo Produto apenas no servidor
+export const Produto = isServer
+  ? mongoose.models.Produto || mongoose.model('Produto', ProdutoSchema, 'produtos')
+  : null;

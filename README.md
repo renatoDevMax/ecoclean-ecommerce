@@ -18,11 +18,13 @@ Sistema de fidelidade para clientes da EcoClean, desenvolvido com Next.js 14 e T
 ## Como Executar o Projeto
 
 1. Clone o repositório:
+
 ```bash
 git clone https://github.com/seu-usuario/projeto-fidelidade-vendas.git
 ```
 
 2. Instale as dependências:
+
 ```bash
 npm install
 # ou
@@ -30,6 +32,7 @@ yarn install
 ```
 
 3. Execute o projeto em modo de desenvolvimento:
+
 ```bash
 npm run dev
 # ou

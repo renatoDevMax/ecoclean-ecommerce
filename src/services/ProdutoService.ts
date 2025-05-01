@@ -1,22 +1,69 @@
 import { connectToDatabase, Produto } from '@/lib/mongodb';
 
-// Interface para o tipo Produto
+// Interface para o tipo Produto retornado para o frontend
 export interface IProduto {
-  _id?: string;
+  _id: string;
   nome: string;
   valor: number;
   descricao: string;
   imagem: string;
   categoria: string;
+  destaque?: boolean;
+  cod: string;
+}
+
+// Interface para retorno do MongoDB
+interface MongoDBProduto {
+  _id: any;
+  nome: string;
+  preco: number;
+  descricao: string;
+  categoria: string;
+  imagem: string;
+  destaque: boolean;
+  cod: string;
+  ativado: boolean;
 }
 
 export class ProdutoService {
   // Método para buscar todos os produtos
-  static async buscarTodosProdutos(): Promise<any[]> {
+  static async buscarTodosProdutos(filtros: { destaque?: boolean } = {}): Promise<IProduto[]> {
     try {
       await connectToDatabase();
-      const produtos = await Produto.find({}).lean();
-      return produtos;
+
+      if (!Produto) {
+        throw new Error('Modelo Produto não disponível');
+      }
+
+      let query: Record<string, any> = {};
+
+      // Adicionar filtro de destaque, se fornecido
+      if (filtros.destaque !== undefined) {
+        query = { ...query, destaque: filtros.destaque };
+      }
+
+      // Adicionar filtro para produtos ativos apenas
+      query = { ...query, ativado: true };
+
+      const produtosDoBanco: any[] = await Produto.find(query).lean();
+
+      // Mapear os campos do banco para os campos usados no frontend
+      const produtosMapeados: IProduto[] = [];
+
+      for (const produto of produtosDoBanco) {
+        produtosMapeados.push({
+          _id: String(produto._id),
+          nome: produto.nome,
+          valor: produto.preco, // Mapeando preco -> valor
+          descricao: produto.descricao,
+          imagem: produto.imagem,
+          categoria: produto.categoria,
+          destaque: produto.destaque,
+          cod: produto.cod,
+        });
+      }
+
+      return produtosMapeados;
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);
       throw error;
@@ -24,24 +71,56 @@ export class ProdutoService {
   }
 
   // Método para buscar produtos por categoria
-  static async buscarProdutosPorCategoria(categoria: string): Promise<any[]> {
+  static async buscarProdutosPorCategoria(
+    categoria: string,
+    filtros: { destaque?: boolean } = {}
+  ): Promise<IProduto[]> {
     try {
       await connectToDatabase();
-      
+
+      if (!Produto) {
+        throw new Error('Modelo Produto não disponível');
+      }
+
       // Tratar casos especiais de categorias
-      let queryFiltro: any = { categoria };
-      
+      let queryFiltro: Record<string, any> = { categoria };
+
       // Para "piscina", buscar de forma insensível a maiúsculas/minúsculas
-      if (categoria.toLowerCase() === "piscina" || categoria.toLowerCase() === "piscinas") {
-        queryFiltro = { 
-          categoria: { 
-            $regex: new RegExp("^piscina$", "i") // Busca exatamente "piscina" ignorando case
-          } 
+      if (categoria.toLowerCase() === 'piscina' || categoria.toLowerCase() === 'piscinas') {
+        queryFiltro = {
+          categoria: {
+            $regex: new RegExp('^piscina$', 'i'), // Busca exatamente "piscina" ignorando case
+          },
         };
       }
-      
-      const produtos = await Produto.find(queryFiltro).lean();
-      return produtos;
+
+      // Adicionar filtro de destaque, se fornecido
+      if (filtros.destaque !== undefined) {
+        queryFiltro = { ...queryFiltro, destaque: filtros.destaque };
+      }
+
+      // Adicionar filtro para produtos ativos apenas
+      queryFiltro = { ...queryFiltro, ativado: true };
+
+      const produtosDoBanco: any[] = await Produto.find(queryFiltro).lean();
+
+      // Mapear os campos do banco para os campos usados no frontend
+      const produtosMapeados: IProduto[] = [];
+
+      for (const produto of produtosDoBanco) {
+        produtosMapeados.push({
+          _id: String(produto._id),
+          nome: produto.nome,
+          valor: produto.preco, // Mapeando preco -> valor
+          descricao: produto.descricao,
+          imagem: produto.imagem,
+          categoria: produto.categoria,
+          destaque: produto.destaque,
+          cod: produto.cod,
+        });
+      }
+
+      return produtosMapeados;
     } catch (error) {
       console.error(`Erro ao buscar produtos da categoria ${categoria}:`, error);
       throw error;
@@ -49,14 +128,32 @@ export class ProdutoService {
   }
 
   // Método para buscar um produto por ID
-  static async buscarProdutoPorId(id: string): Promise<any | null> {
+  static async buscarProdutoPorId(id: string): Promise<IProduto | null> {
     try {
       await connectToDatabase();
-      const produto = await Produto.findById(id).lean();
-      return produto;
+
+      if (!Produto) {
+        throw new Error('Modelo Produto não disponível');
+      }
+
+      const produto: any = await Produto.findById(id).lean();
+
+      if (!produto) return null;
+
+      // Mapear os campos do banco para os campos usados no frontend
+      return {
+        _id: String(produto._id),
+        nome: produto.nome,
+        valor: produto.preco, // Mapeando preco -> valor
+        descricao: produto.descricao,
+        imagem: produto.imagem,
+        categoria: produto.categoria,
+        destaque: produto.destaque,
+        cod: produto.cod,
+      };
     } catch (error) {
       console.error(`Erro ao buscar produto de ID ${id}:`, error);
       throw error;
     }
   }
-} 
+}

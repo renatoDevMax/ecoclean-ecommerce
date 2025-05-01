@@ -5,10 +5,10 @@
 /* Variáveis globais */
 :root {
   --primary: #173363; /* Azul escuro da logo */
-  --primary-light: #2A4A8C; /* Versão mais clara do azul */
-  --secondary: #6EC747; /* Verde da logo */
-  --secondary-light: #8ED96A; /* Versão mais clara do verde */
-  --background: #F5F5F5;
+  --primary-light: #2a4a8c; /* Versão mais clara do azul */
+  --secondary: #6ec747; /* Verde da logo */
+  --secondary-light: #8ed96a; /* Versão mais clara do verde */
+  --background: #f5f5f5;
   --text: #333333;
 }
 
@@ -87,7 +87,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -96,7 +97,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -198,14 +200,23 @@
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.5), rgba(255,255,255,0));
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0)
+  );
   background-size: 1000px 100%;
-  animation: shimmer 2s infinite linear;
+  animation: shimmer 6s infinite linear;
   animation-delay: 0.5s;
 }
 
 /* Estilos base para animações de entrada e saída */
-.reveal, .reveal-left, .reveal-right, .reveal-scale, .animate-element {
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale,
+.animate-element {
   opacity: 0;
   transition: all 0.8s ease;
   transform-origin: center;
@@ -213,13 +224,15 @@
 }
 
 /* Estado ativo - elemento dentro da viewport */
-.reveal.active, .animate-element.active {
+.reveal.active,
+.animate-element.active {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* Estado inativo - elemento fora da viewport */
-.reveal:not(.active), .animate-element:not(.active) {
+.reveal:not(.active),
+.animate-element:not(.active) {
   opacity: 0;
   transform: translateY(50px);
 }
@@ -270,12 +283,24 @@
 }
 
 /* Delays para animações em sequência */
-.reveal-delay-1 { transition-delay: 100ms; }
-.reveal-delay-2 { transition-delay: 200ms; }
-.reveal-delay-3 { transition-delay: 300ms; }
-.reveal-delay-4 { transition-delay: 400ms; }
-.reveal-delay-5 { transition-delay: 500ms; }
-.reveal-delay-6 { transition-delay: 600ms; }
+.reveal-delay-1 {
+  transition-delay: 100ms;
+}
+.reveal-delay-2 {
+  transition-delay: 200ms;
+}
+.reveal-delay-3 {
+  transition-delay: 300ms;
+}
+.reveal-delay-4 {
+  transition-delay: 400ms;
+}
+.reveal-delay-5 {
+  transition-delay: 500ms;
+}
+.reveal-delay-6 {
+  transition-delay: 600ms;
+}
 
 /* Animações específicas para marcas parceiras */
 @keyframes logoRotate {
@@ -317,11 +342,7 @@
 .glow-effect {
   position: absolute;
   inset: -4px;
-  background: radial-gradient(
-    circle at center,
-    rgba(110, 199, 71, 0.3),
-    rgba(23, 51, 99, 0.1)
-  );
+  background: radial-gradient(circle at center, rgba(110, 199, 71, 0.3), rgba(23, 51, 99, 0.1));
   border-radius: 50%;
   z-index: -1;
   opacity: 0;
@@ -330,7 +351,9 @@
 
 /* Animações para elementos com classe animate-element */
 .animate-element {
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
 }
 
 /* Animações para fade in */
@@ -373,16 +396,114 @@
 
 /* Ajuste para que o shimmer não seja cancelado pelas outras classes */
 .animate-element.animate-shimmer {
-  animation: shimmer 2s infinite linear;
+  animation: shimmer 6s infinite linear;
 }
 
 .animate-element.animate-shimmer.active {
   opacity: 1;
   transform: translateY(0);
-  animation: shimmer 2s infinite linear;
+  animation: shimmer 6s infinite linear;
 }
 
 .animate-element.animate-shimmer:not(.active) {
   opacity: 0;
   transform: translateY(30px);
+}
+
+/* Classes de animação */
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+/* Animação para o botão de carrinho */
+@keyframes cartBounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-cartBounce {
+  animation: cartBounce 0.5s ease-in-out;
+}
+
+/* Estilos para o carrossel Embla */
+.embla {
+  overflow: hidden;
+  position: relative;
+}
+
+.embla__container {
+  display: flex;
+  cursor: grab;
+}
+
+.embla__container:active {
+  cursor: grabbing;
+}
+
+.embla__slide {
+  flex: 0 0 auto;
+  position: relative;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.embla__slide__inner {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.embla__controls {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.embla__progress {
+  position: relative;
+  height: 4px;
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem auto 0;
+  background-color: rgba(23, 51, 99, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.embla__progress__bar {
+  position: absolute;
+  background: linear-gradient(90deg, #173363 0%, #6ec747 100%);
+  height: 100%;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease;
+}
+
+/* Animação para cards quando entram no viewport */
+.product-card-transform {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-card-transform:hover {
+  transform: translateY(-10px);
+}
+
+.card-shadow-hover {
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.card-shadow-hover:hover {
+  box-shadow:
+    0 20px 25px -5px rgba(23, 51, 99, 0.1),
+    0 10px 10px -5px rgba(23, 51, 99, 0.04);
 }

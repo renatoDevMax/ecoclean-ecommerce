@@ -9,7 +9,7 @@
  */
 export function isValidUrl(url: string): boolean {
   if (!url) return false;
-  
+
   try {
     new URL(url);
     return true;
@@ -24,7 +24,7 @@ export function isValidUrl(url: string): boolean {
  * @returns Promise que resolve para true se a imagem for carregável, false caso contrário
  */
 export function isImageUrlValid(url: string): Promise<boolean> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     if (!isValidUrl(url)) {
       resolve(false);
       return;
@@ -47,12 +47,12 @@ export function getValidImageUrl(url: string, defaultUrl: string = '/produto-def
   if (!isValidUrl(url)) {
     return defaultUrl;
   }
-  
+
   return url;
 }
 
 // Tipo para categorias válidas
-export type ProdutoCategoria = 
+export type ProdutoCategoria =
   | 'Cozinha'
   | 'Banheiro'
   | 'Estofados e Tecidos'
@@ -64,13 +64,13 @@ export type ProdutoCategoria =
  * Lista de imagens padrão por categoria para uso quando não houver imagem disponível
  */
 export const defaultCategoryImages: Record<ProdutoCategoria | 'default', string> = {
-  'Cozinha': '/images/default-cozinha.jpg',
-  'Banheiro': '/images/default-banheiro.jpg', 
+  Cozinha: '/images/default-cozinha.jpg',
+  Banheiro: '/images/default-banheiro.jpg',
   'Estofados e Tecidos': '/images/default-estofados.jpg',
-  'Automotivo': '/images/default-automotivo.jpg',
-  'Piscinas': '/images/default-piscinas.jpg',
-  'Organizadores': '/images/default-organizadores.jpg',
-  'default': '/produto-default.jpg'
+  Automotivo: '/images/default-automotivo.jpg',
+  Piscinas: '/images/default-piscinas.jpg',
+  Organizadores: '/images/default-organizadores.jpg',
+  default: '/produto-default.jpg',
 };
 
 /**
@@ -80,8 +80,8 @@ export const defaultCategoryImages: Record<ProdutoCategoria | 'default', string>
  */
 export function getDefaultImageForCategory(categoria?: string): string {
   if (!categoria) return defaultCategoryImages.default;
-  
-  return (categoria in defaultCategoryImages) 
-    ? defaultCategoryImages[categoria as ProdutoCategoria] 
+
+  return categoria in defaultCategoryImages
+    ? defaultCategoryImages[categoria as ProdutoCategoria]
     : defaultCategoryImages.default;
-} 
+}
