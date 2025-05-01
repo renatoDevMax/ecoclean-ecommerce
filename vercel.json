@@ -12,6 +12,5 @@
     "MONGODB_URI": "${MONGODB_URI}",
     "NODE_ENV": "production",
     "NEXT_PUBLIC_APP_NAME": "EcoClean Fidelidade"
-  },
-  "ignoreCommand": "echo 'Ignoring ESLint errors' && exit 0"
+  }
 }
