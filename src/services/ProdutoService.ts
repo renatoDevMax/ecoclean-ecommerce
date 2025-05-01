@@ -45,7 +45,7 @@ export class ProdutoService {
       // Adicionar filtro para produtos ativos apenas
       query = { ...query, ativado: true };
 
-      const produtosDoBanco: any[] = await Produto.find(query).lean();
+      const produtosDoBanco: any[] = await (Produto as any).find(query).lean();
 
       // Mapear os campos do banco para os campos usados no frontend
       const produtosMapeados: IProduto[] = [];
@@ -102,7 +102,7 @@ export class ProdutoService {
       // Adicionar filtro para produtos ativos apenas
       queryFiltro = { ...queryFiltro, ativado: true };
 
-      const produtosDoBanco: any[] = await Produto.find(queryFiltro).lean();
+      const produtosDoBanco: any[] = await (Produto as any).find(queryFiltro).lean();
 
       // Mapear os campos do banco para os campos usados no frontend
       const produtosMapeados: IProduto[] = [];
@@ -136,7 +136,7 @@ export class ProdutoService {
         throw new Error('Modelo Produto não disponível');
       }
 
-      const produto: any = await Produto.findById(id).lean();
+      const produto: any = await (Produto as any).findById(id).lean();
 
       if (!produto) return null;
 
