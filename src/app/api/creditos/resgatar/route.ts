@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 
     // Atualizar créditos até alcançar o valor resgatado
     let valorRestante = valorResgatado;
-    const creditosAtualizados = [];
+    const creditosAtualizados: any[] = [];
 
     for (const credito of creditosDisponiveis) {
       if (valorRestante <= 0) break;
