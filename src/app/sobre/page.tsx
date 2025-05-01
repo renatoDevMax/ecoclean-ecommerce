@@ -221,15 +221,15 @@ export default function SobrePage() {
               </p>
 
               <p>
-                "Desde o início, nosso foco nunca foi apenas vender produtos, mas entender as
-                necessidades reais de cada cliente que entrava em nossa loja", conta Maiara, com o
-                brilho nos olhos de quem vê um sonho se realizar.
+                &quot;Desde o início, nosso foco nunca foi apenas vender produtos, mas entender as
+                necessidades reais de cada cliente que entrava em nossa loja&quot;, conta Maiara,
+                com o brilho nos olhos de quem vê um sonho se realizar.
               </p>
 
               <p>
-                Cinara complementa: "Acreditamos que cada casa tem suas próprias necessidades, e nos
-                dedicamos a oferecer não apenas produtos, mas soluções personalizadas que realmente
-                facilitam o dia a dia das pessoas."
+                Cinara complementa: &quot;Acreditamos que cada casa tem suas próprias necessidades,
+                e nos dedicamos a oferecer não apenas produtos, mas soluções personalizadas que
+                realmente facilitam o dia a dia das pessoas.&quot;
               </p>
 
               <div className="py-6">
@@ -473,10 +473,10 @@ export default function SobrePage() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 leading-relaxed">
-                  "Quando iniciamos a EcoClean, nosso maior desafio era mostrar que produtos de
+                  &quot;Quando iniciamos a EcoClean, nosso maior desafio era mostrar que produtos de
                   limpeza podem ser eficientes, acessíveis e ainda trazer algo especial para o dia a
                   dia das pessoas. Ver como nossa visão se transformou em uma comunidade de clientes
-                  fiéis é a maior recompensa que poderíamos ter."
+                  fiéis é a maior recompensa que poderíamos ter.&quot;
                 </p>
                 <div className="w-12 h-0.5 bg-[#6EC747] mt-6 group-hover:w-20 transition-all duration-300"></div>
               </div>
@@ -499,10 +499,10 @@ export default function SobrePage() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 leading-relaxed">
-                  "O segredo do nosso sucesso está na escuta ativa. Conhecer cada cliente pelo nome,
-                  entender suas necessidades específicas e oferecer soluções personalizadas. Não
-                  vendemos apenas produtos de limpeza, oferecemos tempo de qualidade para que as
-                  pessoas possam se dedicar ao que realmente importa em suas vidas."
+                  &quot;O segredo do nosso sucesso está na escuta ativa. Conhecer cada cliente pelo
+                  nome, entender suas necessidades específicas e oferecer soluções personalizadas.
+                  Não vendemos apenas produtos de limpeza, oferecemos tempo de qualidade para que as
+                  pessoas possam se dedicar ao que realmente importa em suas vidas.&quot;
                 </p>
                 <div className="w-12 h-0.5 bg-[#6EC747] mt-6 group-hover:w-20 transition-all duration-300"></div>
               </div>
