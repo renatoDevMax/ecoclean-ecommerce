@@ -6,7 +6,7 @@ export async function GET() {
     await connectToDatabase();
 
     // Buscar todos os produtos com destaque=true e ativado=true
-    const produtosDestaque = await Produto.find({
+    const produtosDestaque = await (Produto as any).find({
       destaque: true,
       ativado: true,
     });

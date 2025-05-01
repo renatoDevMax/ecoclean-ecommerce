@@ -48,10 +48,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Buscar os créditos disponíveis do usuário
-    const creditos = await CompraFidelidadeModel.find({
-      nome: nome,
-      statusCred: 'aberto',
-    }).lean();
+    const creditos = await (CompraFidelidadeModel as any)
+      .find({
+        nome: nome,
+        statusCred: 'aberto',
+      })
+      .lean();
 
     // Data atual
     const agora = new Date();
@@ -78,7 +80,7 @@ export async function POST(request: NextRequest) {
       if (valorRestante <= 0) break;
 
       // Atualizar o status para "resgatado"
-      await CompraFidelidadeModel.updateOne(
+      await (CompraFidelidadeModel as any).updateOne(
         { _id: credito._id },
         { $set: { statusCred: 'resgatado' } }
       );

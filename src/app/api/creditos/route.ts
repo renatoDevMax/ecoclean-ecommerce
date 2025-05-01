@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Buscar todos os créditos do usuário
-    const creditos = await CreditoModel.find({ nome }).sort({ data: -1 }).lean();
+    const creditos = await (CreditoModel as any).find({ nome }).sort({ data: -1 }).lean();
 
     // Processar status e calcular créditos disponíveis
     const agora = new Date();

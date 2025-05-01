@@ -46,9 +46,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Buscar todas as compras do usuário na coleção comprasFidelidade
-    const creditos = await CompraFidelidadeModel.find({
-      nome: nomeUsuario,
-    }).lean();
+    const creditos = await (CompraFidelidadeModel as any)
+      .find({
+        nome: nomeUsuario,
+      })
+      .lean();
 
     // Data atual
     const agora = new Date();

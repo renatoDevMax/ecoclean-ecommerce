@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Buscar compras com o filtro
-    const compras = await Compra.find(query).sort({ dataCompra: -1 }).lean();
+    const compras = await (Compra as any).find(query).sort({ dataCompra: -1 }).lean();
 
     // Retornar as compras encontradas
     return NextResponse.json(compras);
