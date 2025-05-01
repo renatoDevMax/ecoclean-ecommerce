@@ -46,7 +46,7 @@ export async function salvarCompra(
       mongoose.model('ComprasClientes', ComprasClientesSchema, 'comprasClientes');
 
     // Inserindo o documento na coleção
-    const result = await ComprasClientes.create(compra);
+    const result = await (ComprasClientes as any).create(compra);
 
     return { success: true, id: result._id.toString() };
   } catch (error) {
@@ -73,7 +73,7 @@ export async function salvarCompraFidelidade(
       mongoose.model('ComprasFidelidade', ComprasFidelidadeSchema, 'comprasFidelidade');
 
     // Inserindo o documento na coleção
-    const result = await ComprasFidelidade.create(compraFidelidade);
+    const result = await (ComprasFidelidade as any).create(compraFidelidade);
 
     return { success: true, id: result._id.toString() };
   } catch (error) {
