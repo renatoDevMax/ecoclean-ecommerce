@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import ClienteMatriz from '@/models/ClienteMatriz';
 import ClienteFiliado from '@/models/ClienteFiliado';
+import { Document } from 'mongoose';
 
 export async function POST(request: Request) {
   try {
@@ -23,20 +24,25 @@ export async function POST(request: Request) {
 
     // Procurar usuário por email ou nome na coleção clienteMatriz
     console.log('Procurando usuário na coleção clienteMatriz...');
-    let user: any = await ClienteMatriz.findOne({
+    // Usando as assinaturas de tipo mais genéricas para evitar erros de tipagem
+    let user: any = await (ClienteMatriz as any).findOne({
       $or: [{ email: identifier }, { nome: identifier }],
-    }).lean();
+    });
 
     if (user) {
+      // Converter para objeto JavaScript simples
+      user = user.toObject ? user.toObject() : user;
       console.log('Usuário encontrado na coleção clienteMatriz');
     } else {
       // Se não encontrou, procurar na coleção clienteFiliado
       console.log('Usuário não encontrado na clienteMatriz, procurando na clienteFiliado...');
-      user = await ClienteFiliado.findOne({
+      user = await (ClienteFiliado as any).findOne({
         $or: [{ email: identifier }, { nome: identifier }],
-      }).lean();
+      });
 
       if (user) {
+        // Converter para objeto JavaScript simples
+        user = user.toObject ? user.toObject() : user;
         console.log('Usuário encontrado na coleção clienteFiliado');
       }
     }
