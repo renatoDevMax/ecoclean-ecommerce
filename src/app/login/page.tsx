@@ -49,7 +49,7 @@ export default function LoginPage() {
         <div className="hidden md:flex md:w-1/2 bg-primary items-center justify-center p-10 relative">
           <div className="absolute inset-0 opacity-90">
             <Image
-              src="/fundologinteste.png"
+              src="/fundoLogin.png"
               alt="Padrão de limpeza"
               fill
               style={{ objectFit: 'cover' }}
