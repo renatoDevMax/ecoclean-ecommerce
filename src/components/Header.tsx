@@ -69,7 +69,7 @@ export default function Header() {
             <div className="flex flex-col">
               <span className="text-xl font-semibold transition-all duration-300">
                 <span
-                  className="text-white drop-shadow-sm"
+                  className={`${scrolled ? 'text-[#173363]' : 'text-white'} drop-shadow-sm transition-colors duration-300`}
                   style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}
                 >
                   Eco
@@ -382,55 +382,6 @@ export default function Header() {
                     </div>
                   </a>
                 </li>
-              )}
-
-              {/* Menu de Perfil no Mobile */}
-              {isAuthenticated && user && (
-                <>
-                  <li className="pt-2 border-t border-gray-200">
-                    <span className="block text-sm text-gray-500">Olá, {user.nome}</span>
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        setShowProfileModal(true);
-                      }}
-                      className="block text-[#173363] hover:text-[#6EC747] transition-colors duration-300"
-                    >
-                      Meu Perfil
-                    </button>
-                  </li>
-                  <li>
-                    <Link
-                      href="/historico-compras"
-                      className="block text-[#173363] hover:text-[#6EC747] transition-colors duration-300"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Histórico de Compras
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/creditos"
-                      className="block text-[#173363] hover:text-[#6EC747] transition-colors duration-300"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Meus Créditos
-                    </Link>
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="block text-red-600 hover:text-red-700 transition-colors duration-300"
-                    >
-                      Sair
-                    </button>
-                  </li>
-                </>
               )}
             </ul>
           </nav>
