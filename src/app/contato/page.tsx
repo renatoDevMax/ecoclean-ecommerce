@@ -528,9 +528,9 @@ Mensagem: ${formData.mensagem}
                     Qual o prazo de entrega dos produtos?
                   </h3>
                   <p className="text-gray-600">
-                    O prazo de entrega varia de acordo com a sua localização. Para a região
-                    metropolitana, normalmente realizamos entregas em até 48 horas. Para outras
-                    regiões, o prazo pode ser de 3 a 7 dias úteis.
+                    O prazo de entrega varia de acordo com a sua localização. Para a região de
+                    Matinhos fazemos entregas no mesmo dia, em casos excepcionáis, pode ser um dia
+                    de realinhamento da entrega. Para as demais regiões entregas agendadas.
                   </p>
                 </div>
               </div>
