@@ -125,9 +125,9 @@ export default function SobrePage() {
                   Nossa Missão
                 </h2>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Proporcionar soluções de limpeza eficientes e acessíveis que facilitem o dia a dia
-                  das pessoas, sempre com o compromisso de oferecer produtos que respeitem tanto o
-                  orçamento familiar quanto o meio ambiente.
+                  Nossa missão é levar a solução de higiene, limpeza e organização até você, com
+                  praticidade e eficiência! Prezamos pela excelência no atendimento e a satisfação
+                  dos nossos clientes.
                 </p>
                 <div className="w-16 h-0.5 bg-[#6EC747] mb-6"></div>
                 <h2 className="text-3xl font-medium text-[#173363] mb-6 flex items-center">
