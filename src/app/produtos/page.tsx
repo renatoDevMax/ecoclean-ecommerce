@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useCart } from '@/context/CartContext';
+import { useModoOrcamento } from '@/context/ModoOrcamentoContext';
 import ProdutoImagem from '@/components/ProdutoImagem';
 import Link from 'next/link';
 import {
@@ -63,6 +64,7 @@ export default function Produtos() {
 
   // Acessar o contexto do carrinho
   const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
+  const { isOrcamentoAtivo } = useModoOrcamento();
 
   // Adicionar um useRef para a seção de produtos
   const produtosSectionRef = useRef<HTMLDivElement>(null);
@@ -248,25 +250,27 @@ export default function Produtos() {
 
   // Atualizar a função para filtrar produtos com base na categoria e no termo de pesquisa
   const produtosFiltrados = (() => {
-    // Primeiro filtramos pelo termo de pesquisa
-    const filtradosPorTermo = produtos.filter(produto =>
-      produto.nome.toLowerCase().includes(termoPesquisa.toLowerCase())
-    );
+    let itensFiltrados = [...produtos];
 
-    // Depois filtramos pela categoria selecionada
-    if (!categoriaSelecionada) {
-      return filtradosPorTermo;
+    // Filtrar por categoria (se não for "Todos" ou "Destaques")
+    if (
+      categoriaSelecionada &&
+      categoriaSelecionada !== 'Todos' &&
+      categoriaSelecionada !== 'Destaques'
+    ) {
+      itensFiltrados = itensFiltrados.filter(
+        produto => produto.categoria.toLowerCase() === categoriaSelecionada.toLowerCase()
+      );
     }
 
-    if (categoriaSelecionada === 'Destaques') {
-      return filtradosPorTermo.filter(produto => produto.destaque);
+    // Filtrar por termo de pesquisa (se houver)
+    if (termoPesquisa) {
+      itensFiltrados = itensFiltrados.filter(produto =>
+        produto.nome.toLowerCase().includes(termoPesquisa.toLowerCase())
+      );
     }
 
-    if (categoriaSelecionada === 'Todos') {
-      return filtradosPorTermo;
-    }
-
-    return filtradosPorTermo.filter(produto => produto.categoria === categoriaSelecionada);
+    return itensFiltrados;
   })();
 
   return (
@@ -505,19 +509,21 @@ export default function Produtos() {
 
                           {/* Preço visível permanentemente */}
                           <div className="ml-2">
-                            {produto.isPromocao ? (
-                              <div className="flex flex-col items-end">
-                                <span className="text-xs text-gray-500 line-through">
-                                  {formatarValor(produto.valorOriginal || produto.valor * 1.2)}
-                                </span>
-                                <span className="text-lg font-bold text-[#e63946]">
+                            {isOrcamentoAtivo ? (
+                              <span className="text-sm font-light text-gray-600">
+                                Faça seu login para visualizar o preço.
+                              </span>
+                            ) : (
+                              <div className="flex items-baseline">
+                                <span className="text-2xl font-bold text-primary mr-2">
                                   {formatarValor(produto.valor)}
                                 </span>
+                                {produto.isPromocao && produto.valorOriginal && (
+                                  <span className="text-sm text-gray-500 line-through">
+                                    {formatarValor(produto.valorOriginal)}
+                                  </span>
+                                )}
                               </div>
-                            ) : (
-                              <span className="text-lg font-bold text-[#173363]">
-                                {formatarValor(produto.valor)}
-                              </span>
                             )}
                           </div>
                         </div>

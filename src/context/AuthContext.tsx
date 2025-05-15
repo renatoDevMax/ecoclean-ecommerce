@@ -13,6 +13,7 @@ export interface ClienteMatriz {
   tipoCliente: string;
   dataCadastro: Date;
   email: string;
+  tempo: number;
 }
 
 export interface ClienteFiliado {
@@ -27,6 +28,7 @@ export interface ClienteFiliado {
   matriz: string;
   beneficioMatriz: string[];
   email: string;
+  tempo: number;
 }
 
 export type UserType = ClienteMatriz | ClienteFiliado | null;

@@ -4,6 +4,7 @@ import React, { useState, useEffect, CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { useCart, CartProduct } from '@/context/CartContext';
+import { useModoOrcamento } from '@/context/ModoOrcamentoContext';
 
 // Usando o mesmo tipo do CartContext
 type Produto = Omit<CartProduct, 'quantidade'>;
@@ -18,6 +19,7 @@ export default function ModalProduto({ product, onClose, onAddToCart }: ModalPro
   const [animate, setAnimate] = useState(false);
   const [contentVisible, setContentVisible] = useState(false);
   const { addToCart, cartItems, updateQuantity, removeFromCart } = useCart();
+  const { isOrcamentoAtivo } = useModoOrcamento();
   const [mounted, setMounted] = useState(false);
   const [imgStyle, setImgStyle] = useState<CSSProperties>({
     transition: 'transform 0.3s ease',
@@ -136,7 +138,13 @@ export default function ModalProduto({ product, onClose, onAddToCart }: ModalPro
             </div>
             <p className="text-gray-600 mb-4">{product.descricao}</p>
             <div className="mb-6">
-              <span className="text-xl font-medium text-[#173363]">{precoFormatado}</span>
+              {isOrcamentoAtivo ? (
+                <span className="text-sm font-light text-gray-600">
+                  Faça seu login para visualizar o preço.
+                </span>
+              ) : (
+                <span className="text-xl font-medium text-[#173363]">{precoFormatado}</span>
+              )}
             </div>
 
             {produtoNoCarrinho ? (

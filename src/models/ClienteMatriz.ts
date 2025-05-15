@@ -5,11 +5,12 @@ const clienteMatrizSchema = new Schema({
   cpfcnpj: { type: String, required: true },
   endereco: { type: String, required: true },
   contato: { type: String, required: true },
-  beneficios: { type: [String], default: [] },
-  tipoCliente: { type: String, required: true },
+  beneficios: { type: [String], required: true },
+  tipoCliente: { type: String, required: true, default: 'matriz' },
   dataCadastro: { type: Date, default: Date.now },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   senha: { type: String, required: true },
+  tempo: { type: Number, required: true },
 });
 
 // Verifica se o modelo já existe para evitar sobrescrever e especifica o nome exato da coleção

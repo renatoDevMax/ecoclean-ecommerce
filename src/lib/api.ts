@@ -112,9 +112,18 @@ export async function enviarMensagemWhatsApp(mensagem: {
 export function formatarProdutosParaMensagem(produtos: CartProduct[]): string {
   return produtos
     .map(produto => {
-      // Garantir que exibimos apenas o código do produto (cod)
       const codigo = produto.cod !== undefined ? produto.cod : 'Código não disponível';
       return `Código: ${codigo}\n${produto.nome}\nQuantidade: ${produto.quantidade}\nValor: ${produto.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}\n`;
     })
     .join('\n');
+}
+
+// Nova função para formatar itens do orçamento para WhatsApp
+export function formatarItensParaOrcamentoWhatsApp(produtos: CartProduct[]): string {
+  return produtos
+    .map(item => {
+      const codigo = item.cod !== undefined ? item.cod : 'N/D';
+      return `${item.nome}\n` + `Código: ${codigo}\n` + `Quantidade: ${item.quantidade}`;
+    })
+    .join('\n\n'); // Adiciona uma linha extra entre os itens para melhor legibilidade
 }

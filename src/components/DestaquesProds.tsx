@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import ModalProduto from './ModalProduto';
 import { useCart, CartProduct } from '@/context/CartContext';
+import { useModoOrcamento } from '@/context/ModoOrcamentoContext';
 import useEmblaCarousel from 'embla-carousel-react';
 
 // Interface para o produto do MongoDB
@@ -40,6 +41,7 @@ export default function DestaquesProds() {
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Produto | null>(null);
   const { addToCart } = useCart();
+  const { isOrcamentoAtivo } = useModoOrcamento();
 
   // Estados para controles do carrossel
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
@@ -419,12 +421,20 @@ export default function DestaquesProds() {
                         <div className="mt-auto">
                           {/* Preço e condições */}
                           <div className="flex items-end justify-between mb-4">
-                            <div className="text-2xl font-light text-[#173363]">
-                              {formatarPreco(produto.preco)}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              ou 3x de {formatarPreco(produto.preco / 3)}
-                            </div>
+                            {isOrcamentoAtivo ? (
+                              <div className="text-sm font-light text-gray-600">
+                                Faça seu login para visualizar
+                              </div>
+                            ) : (
+                              <>
+                                <div className="text-2xl font-light text-[#173363]">
+                                  {formatarPreco(produto.preco)}
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                  ou 3x de {formatarPreco(produto.preco / 3)}
+                                </div>
+                              </>
+                            )}
                           </div>
 
                           {/* Botão de adicionar ao carrinho */}

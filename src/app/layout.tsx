@@ -4,6 +4,7 @@ import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
 import CartModal from '@/components/CartModal';
+import { ModoOrcamentoProvider } from '@/context/ModoOrcamentoContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,10 +22,12 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={inter.className}>
         <AuthProvider>
-          <CartProvider>
-            {children}
-            <CartModal />
-          </CartProvider>
+          <ModoOrcamentoProvider>
+            <CartProvider>
+              {children}
+              <CartModal />
+            </CartProvider>
+          </ModoOrcamentoProvider>
         </AuthProvider>
       </body>
     </html>
