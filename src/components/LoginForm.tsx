@@ -516,6 +516,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
           dataCadastro: new Date().toISOString(),
           email: formData.email,
           senha: formData.senha,
+          tempo: 0,
         };
 
         console.log('Tentando salvar usuário:', userData);
