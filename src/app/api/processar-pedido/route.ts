@@ -90,7 +90,9 @@ ${produtosFormatados}
 *FORMA DE PAGAMENTO:*
 ${compra.pagamento}
 
-🔄 *STATUS:* Pedido Recebido`;
+🔄 *STATUS:* Pedido Recebido
+
+https://wa.me/55${compra.contato}`;
 
     // Enviar a mensagem formatada
     const contatoDestino = '4187280741';

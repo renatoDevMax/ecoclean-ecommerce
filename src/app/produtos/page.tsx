@@ -440,7 +440,7 @@ export default function Produtos() {
                   {produtosFiltrados.map((produto, index) => (
                     <div
                       key={produto._id || index}
-                      className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1"
+                      className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 flex flex-col h-full"
                       data-aos="fade-up"
                       data-aos-delay={100 + (index % 4) * 100}
                     >
@@ -490,11 +490,11 @@ export default function Produtos() {
                         )}
                       </div>
 
-                      {/* Informações do produto */}
-                      <div className="p-5">
+                      {/* Informações do produto - Layout reestruturado */}
+                      <div className="p-5 flex flex-col flex-grow">
                         <div className="flex justify-between items-start mb-2">
                           <h3
-                            className="text-xl font-semibold text-[#173363] group-hover:text-[#6EC747] transition-colors duration-300 cursor-pointer relative z-30"
+                            className="text-xl font-semibold text-[#173363] group-hover:text-[#6EC747] transition-colors duration-300 cursor-pointer relative z-30 flex-grow pr-2"
                             onClick={() => {
                               const produtoImagemElement = document.querySelector(
                                 `#produto-imagem-${produto._id}`
@@ -506,14 +506,8 @@ export default function Produtos() {
                           >
                             {produto.nome}
                           </h3>
-
-                          {/* Preço visível permanentemente */}
-                          <div className="ml-2">
-                            {isOrcamentoAtivo ? (
-                              <span className="text-sm font-light text-gray-600">
-                                Faça seu login para visualizar o preço.
-                              </span>
-                            ) : (
+                          {!isOrcamentoAtivo && (
+                            <div className="ml-2 flex-shrink-0">
                               <div className="flex items-baseline">
                                 <span className="text-2xl font-bold text-primary mr-2">
                                   {formatarValor(produto.valor)}
@@ -524,14 +518,14 @@ export default function Produtos() {
                                   </span>
                                 )}
                               </div>
-                            )}
-                          </div>
+                            </div>
+                          )}
                         </div>
 
                         <div className="h-0.5 w-12 bg-gradient-to-r from-[#173363] to-[#6EC747] mb-3 group-hover:w-20 transition-all duration-300"></div>
 
                         <p
-                          className="text-gray-600 mb-6 line-clamp-3 text-sm cursor-pointer relative z-30"
+                          className="text-gray-600 mb-4 line-clamp-3 text-sm cursor-pointer relative z-30 flex-grow"
                           onClick={() => {
                             const produtoImagemElement = document.querySelector(
                               `#produto-imagem-${produto._id}`
@@ -544,7 +538,16 @@ export default function Produtos() {
                           {produto.descricao}
                         </p>
 
-                        <div className="flex justify-center">
+                        {isOrcamentoAtivo && (
+                          <div className="mb-4 mt-auto">
+                            <span className="text-sm font-light text-gray-600">
+                              Faça seu login para visualizar o preço.
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Botões de Ação - mt-auto aqui para empurrar para o final do card */}
+                        <div className="mt-auto flex justify-center">
                           {getQuantidadeNoCarrinho(produto._id) > 0 ? (
                             // Controle de quantidade quando produto está no carrinho
                             <div className="w-full flex items-center justify-between bg-white border border-[#173363] rounded-lg py-2 px-3 transition-all duration-500 animate-fade-in relative z-20">
