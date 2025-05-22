@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Projeto Fidelidade Vendas',
   description: 'Aplicação de fidelidade para vendas',
+  icons: {
+    icon: '/logo.jpg',
+  },
 };
 
 export default function RootLayout({
