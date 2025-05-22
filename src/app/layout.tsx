@@ -12,7 +12,12 @@ export const metadata: Metadata = {
   title: 'Projeto Fidelidade Vendas',
   description: 'Aplicação de fidelidade para vendas',
   icons: {
-    icon: '/logo.jpg',
+    icon: [
+      { url: '/logocon.png', sizes: '32x32' },
+      { url: '/logocon.png', sizes: '16x16' },
+    ],
+    shortcut: '/logocon.png',
+    apple: '/logocon.png',
   },
 };
 
