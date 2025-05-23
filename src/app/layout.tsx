@@ -13,12 +13,20 @@ export const metadata: Metadata = {
   description: 'Aplicação de fidelidade para vendas',
   icons: {
     icon: [
-      { url: '/logocon.png', sizes: '32x32' },
-      { url: '/logocon.png', sizes: '16x16' },
+      { url: '/logocon.png', type: 'image/png' },
+      { url: '/logocon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logocon.png', sizes: '16x16', type: 'image/png' },
     ],
     shortcut: '/logocon.png',
     apple: '/logocon.png',
+    other: [
+      {
+        rel: 'apple-touch-icon-precomposed',
+        url: '/logocon.png',
+      },
+    ],
   },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
