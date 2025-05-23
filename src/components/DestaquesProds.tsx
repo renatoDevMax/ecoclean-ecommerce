@@ -430,9 +430,6 @@ export default function DestaquesProds() {
                                 <div className="text-2xl font-light text-[#173363]">
                                   {formatarPreco(produto.preco)}
                                 </div>
-                                <div className="text-xs text-gray-500">
-                                  ou 3x de {formatarPreco(produto.preco / 3)}
-                                </div>
                               </>
                             )}
                           </div>
