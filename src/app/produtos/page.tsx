@@ -25,7 +25,28 @@ import {
   FaShieldAlt,
   FaBrush,
   FaStar,
+  FaTools,
+  FaRegLightbulb,
 } from 'react-icons/fa';
+import { FaBucket, FaBugSlash, FaCarOn, FaSoap } from 'react-icons/fa6';
+import {
+  GiMetalPlate,
+  GiRolledCloth,
+  GiSoap,
+  GiSoapExperiment,
+  GiStoneTablet,
+  GiVacuumCleaner,
+  GiWoodPile,
+} from 'react-icons/gi';
+import { SiAdroll, SiAnydesk } from 'react-icons/si';
+import { TbSquareHalf } from 'react-icons/tb';
+import { RiDeleteBinLine, RiFilePaperLine } from 'react-icons/ri';
+import { PiGearFineBold, PiPaintBrushFill, PiShovelFill, PiTeaBagBold } from 'react-icons/pi';
+import { LuSquareStack, LuUtilityPole } from 'react-icons/lu';
+import { BsRulers } from 'react-icons/bs';
+import { MdSoap } from 'react-icons/md';
+import { IoWaterSharp } from 'react-icons/io5';
+import { BiLogoSquarespace } from 'react-icons/bi';
 
 // Interface para o tipo Produto
 interface Produto {
@@ -218,23 +239,51 @@ export default function Produtos() {
         </svg>
       ),
     },
-    { id: 1, nome: 'Aromatizante', icone: <FaSprayCan /> },
-    { id: 2, nome: 'Banheiro', icone: <FaToilet /> },
-    { id: 3, nome: 'Desengordurante', icone: <FaPumpSoap /> },
-    { id: 4, nome: 'Desinfetante', icone: <FaVial /> },
-    { id: 5, nome: 'Detergente', icone: <FaPumpSoap /> },
-    { id: 6, nome: 'Jardinagem', icone: <FaSeedling /> },
-    { id: 7, nome: 'Lavanderia', icone: <FaTshirt /> },
-    { id: 8, nome: 'Limpa Vidros', icone: <FaWindowMaximize /> },
-    { id: 9, nome: 'Limpeza em Geral', icone: <FaBroom /> },
-    { id: 10, nome: 'Lustra Móveis', icone: <FaCouch /> },
-    { id: 11, nome: 'Luva', icone: <FaHandsWash /> },
-    { id: 12, nome: 'Multiuso', icone: <FaMultiuso /> },
-    { id: 13, nome: 'Piscina', icone: <FaSwimmingPool /> },
-    { id: 14, nome: 'Pulverizador', icone: <FaSprayCan /> },
-    { id: 15, nome: 'Pós Obra', icone: <FaHardHat /> },
-    { id: 16, nome: 'Segurança', icone: <FaShieldAlt /> },
-    { id: 17, nome: 'Vassoura', icone: <FaBrush /> },
+    { id: 1, nome: 'Álcool', icone: <GiSoapExperiment /> },
+    { id: 2, nome: 'Aromatizante', icone: <FaSprayCan /> },
+    { id: 3, nome: 'Automotivo', icone: <FaCarOn /> },
+    { id: 4, nome: 'Balde', icone: <FaBucket /> },
+    { id: 5, nome: 'Banheiro', icone: <FaToilet /> },
+    { id: 6, nome: 'Cera', icone: <GiWoodPile /> },
+    { id: 7, nome: 'Desengordurante', icone: <FaPumpSoap /> },
+    { id: 8, nome: 'Desinfetante', icone: <FaVial /> },
+    { id: 9, nome: 'Detergente', icone: <FaPumpSoap /> },
+    { id: 10, nome: 'Dispenser', icone: <FaSoap /> },
+    { id: 11, nome: 'Diversos', icone: <SiAnydesk /> },
+    { id: 12, nome: 'Esponja', icone: <TbSquareHalf /> },
+    { id: 13, nome: 'Ferramentas', icone: <FaTools /> },
+    { id: 14, nome: 'Inseticida', icone: <FaBugSlash /> },
+    { id: 15, nome: 'Jardinagem', icone: <FaSeedling /> },
+    { id: 16, nome: 'Lavanderia', icone: <FaTshirt /> },
+    { id: 17, nome: 'Limpa Alumínio', icone: <GiMetalPlate /> },
+    { id: 18, nome: 'Limpa Pedras', icone: <GiStoneTablet /> },
+    { id: 19, nome: 'Limpa Vidros', icone: <FaWindowMaximize /> },
+    { id: 20, nome: 'Limpeza em Geral', icone: <FaBroom /> },
+    { id: 21, nome: 'Lixeira', icone: <RiDeleteBinLine /> },
+    { id: 22, nome: 'Lustra Móveis', icone: <FaCouch /> },
+    { id: 23, nome: 'Luva', icone: <FaHandsWash /> },
+    { id: 24, nome: 'Lâmpada', icone: <FaRegLightbulb /> },
+    { id: 25, nome: 'Mop', icone: <PiPaintBrushFill /> },
+    { id: 26, nome: 'Multiuso', icone: <FaMultiuso /> },
+    { id: 27, nome: 'Organizador', icone: <LuSquareStack /> },
+    { id: 28, nome: 'Panos', icone: <GiRolledCloth /> },
+    { id: 29, nome: 'Papel Higiênico', icone: <SiAdroll /> },
+    { id: 30, nome: 'Papel Toalha', icone: <RiFilePaperLine /> },
+    { id: 31, nome: 'Piscina', icone: <FaSwimmingPool /> },
+    { id: 32, nome: 'Pulverizador', icone: <FaSprayCan /> },
+    { id: 33, nome: 'Pá', icone: <PiShovelFill /> },
+    { id: 34, nome: 'Pós Obra', icone: <FaHardHat /> },
+    { id: 35, nome: 'Rodo', icone: <BsRulers /> },
+    { id: 36, nome: 'Sabonete', icone: <MdSoap /> },
+    { id: 37, nome: 'Sabão', icone: <GiSoap /> },
+    { id: 38, nome: 'Saco Aspirador', icone: <GiVacuumCleaner /> },
+    { id: 39, nome: 'Saco de Lixo', icone: <PiTeaBagBold /> },
+    { id: 40, nome: 'Segurança', icone: <FaShieldAlt /> },
+    { id: 41, nome: 'Silicone', icone: <IoWaterSharp /> },
+    { id: 42, nome: 'Tapetes', icone: <BiLogoSquarespace /> },
+    { id: 43, nome: 'Utilidades', icone: <PiGearFineBold /> },
+    { id: 44, nome: 'Varal', icone: <LuUtilityPole /> },
+    { id: 45, nome: 'Vassoura', icone: <FaBrush /> },
   ];
 
   // Formatar o valor para o formato de moeda brasileira
