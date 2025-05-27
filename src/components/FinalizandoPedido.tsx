@@ -13,6 +13,7 @@ export default function FinalizandoPedido() {
     useCart();
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
+  const tituloRef = React.useRef<HTMLDivElement>(null);
 
   // Estados
   const [passo, setPasso] = useState<'produtos' | 'entrega' | 'pagamento'>('produtos');
@@ -94,17 +95,33 @@ export default function FinalizandoPedido() {
 
   const handleProximoPasso = () => {
     setPasso('entrega');
+    // Adicionar um pequeno delay para garantir que a animação de transição comece
+    setTimeout(() => {
+      tituloRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const handleContinuarParaPagamento = () => {
     setPasso('pagamento');
+    // Adicionar um pequeno delay para garantir que a animação de transição comece
+    setTimeout(() => {
+      tituloRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const handleVoltarPasso = () => {
     if (passo === 'entrega') {
       setPasso('produtos');
+      // Adicionar um pequeno delay para garantir que a animação de transição comece
+      setTimeout(() => {
+        tituloRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     } else if (passo === 'pagamento') {
       setPasso('entrega');
+      // Adicionar um pequeno delay para garantir que a animação de transição comece
+      setTimeout(() => {
+        tituloRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     }
   };
 
@@ -243,7 +260,7 @@ export default function FinalizandoPedido() {
 
   return (
     <div className="max-w-6xl mx-auto my-12 px-4">
-      <div className="mb-8">
+      <div className="mb-8" ref={tituloRef}>
         <h1 className="text-3xl font-bold text-[#173363]">Finalizando seu Pedido</h1>
         <p className="text-gray-600 mt-2">
           {passo === 'produtos'

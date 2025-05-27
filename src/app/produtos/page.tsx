@@ -47,6 +47,7 @@ import { BsRulers } from 'react-icons/bs';
 import { MdSoap } from 'react-icons/md';
 import { IoWaterSharp } from 'react-icons/io5';
 import { BiLogoSquarespace } from 'react-icons/bi';
+import CategoriasCarrossel from '@/components/CategoriasCarrossel';
 
 // Interface para o tipo Produto
 interface Produto {
@@ -297,6 +298,21 @@ export default function Produtos() {
     });
   };
 
+  // Função para lidar com a mudança no input de pesquisa
+  const handlePesquisaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const novoTermo = e.target.value;
+    setTermoPesquisa(novoTermo);
+
+    // Se houver texto no input e a categoria não for "Todos", trocar para "Todos"
+    if (novoTermo && categoriaSelecionada !== 'Todos') {
+      handleCategoriaClick('Todos');
+    }
+    // Se o texto for apagado e a categoria for "Todos", voltar para "Destaques"
+    else if (!novoTermo && categoriaSelecionada === 'Todos') {
+      handleCategoriaClick('Destaques');
+    }
+  };
+
   // Atualizar a função para filtrar produtos com base na categoria e no termo de pesquisa
   const produtosFiltrados = (() => {
     let itensFiltrados = [...produtos];
@@ -361,28 +377,12 @@ export default function Produtos() {
             <p className="text-gray-600">Selecione uma categoria para filtrar os produtos</p>
           </div>
 
-          {/* Grid de categorias em formato compacto */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {categorias.map((categoria, index) => (
-              <button
-                key={categoria.id}
-                className={`flex items-center px-4 py-2 rounded-full border transition-all duration-300 animate-fade-in-up ${
-                  categoriaSelecionada === categoria.nome
-                    ? 'bg-[#173363] text-white border-[#173363]'
-                    : 'bg-white text-[#173363] border-gray-200 hover:border-[#6EC747] hover:text-[#6EC747]'
-                }`}
-                style={{ animationDelay: `${index * 0.05}s` }}
-                onClick={() =>
-                  handleCategoriaClick(
-                    categoriaSelecionada === categoria.nome ? null : categoria.nome
-                  )
-                }
-              >
-                <span className="mr-2 text-lg">{categoria.icone}</span>
-                <span className="text-sm font-medium">{categoria.nome}</span>
-              </button>
-            ))}
-          </div>
+          {/* Novo componente de carrossel de categorias */}
+          <CategoriasCarrossel
+            categorias={categorias}
+            categoriaSelecionada={categoriaSelecionada}
+            onCategoriaClick={handleCategoriaClick}
+          />
         </div>
       </section>
 
@@ -410,7 +410,7 @@ export default function Produtos() {
                 <input
                   type="text"
                   value={termoPesquisa}
-                  onChange={e => setTermoPesquisa(e.target.value)}
+                  onChange={handlePesquisaChange}
                   placeholder="Pesquisar produtos..."
                   className="w-full py-2 px-4 pl-10 pr-10 rounded-full border border-[#173363]/20 focus:outline-none focus:ring-2 focus:ring-[#6EC747] focus:border-transparent transition-all duration-300"
                 />
@@ -426,7 +426,13 @@ export default function Produtos() {
                 </div>
                 {termoPesquisa && (
                   <button
-                    onClick={() => setTermoPesquisa('')}
+                    onClick={() => {
+                      setTermoPesquisa('');
+                      // Se a categoria atual for "Todos" e não houver mais texto, voltar para "Destaques"
+                      if (categoriaSelecionada === 'Todos') {
+                        handleCategoriaClick('Destaques');
+                      }
+                    }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-[#173363] transition-colors"
                   >
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
