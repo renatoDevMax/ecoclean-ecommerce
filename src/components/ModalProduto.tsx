@@ -136,7 +136,9 @@ export default function ModalProduto({ product, onClose, onAddToCart }: ModalPro
                 </svg>
               </button>
             </div>
-            <p className="text-gray-600 mb-4">{product.descricao}</p>
+            <div className="max-h-[150px] overflow-y-auto pr-2 mb-4">
+              <p className="text-gray-600">{product.descricao}</p>
+            </div>
             <div className="mb-6">
               {isOrcamentoAtivo ? (
                 <span className="text-sm font-light text-gray-600">
