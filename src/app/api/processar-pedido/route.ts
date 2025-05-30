@@ -95,7 +95,7 @@ ${compra.pagamento}
 https://wa.me/55${compra.contato}`;
 
     // Enviar a mensagem formatada
-    const contatoDestino = '4187280741';
+    const contatoDestino = '4197943219';
 
     const resultadoMensagem = await enviarMensagemWhatsApp({
       contato: contatoDestino,
