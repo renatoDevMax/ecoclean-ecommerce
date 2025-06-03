@@ -156,4 +156,31 @@ export class ProdutoService {
       throw error;
     }
   }
+
+  // Método para buscar múltiplos produtos por códigos
+  static async buscarProdutosPorCodigos(cods: string[]): Promise<IProduto[]> {
+    try {
+      await connectToDatabase();
+
+      if (!Produto) {
+        throw new Error('Modelo Produto não disponível');
+      }
+
+      const produtos: any[] = await (Produto as any).find({ cod: { $in: cods } }).lean();
+
+      return produtos.map(produto => ({
+        _id: String(produto._id),
+        nome: produto.nome,
+        valor: produto.preco,
+        descricao: produto.descricao,
+        imagem: produto.imagem,
+        categoria: produto.categoria,
+        destaque: produto.destaque,
+        cod: produto.cod,
+      }));
+    } catch (error) {
+      console.error('Erro ao buscar produtos por códigos:', error);
+      throw error;
+    }
+  }
 }

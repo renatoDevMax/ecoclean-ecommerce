@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { ProdutoService } from '@/services/ProdutoService';
+import { connectToDatabase, Produto } from '@/lib/mongodb';
 
 export async function GET(request: Request) {
   try {
@@ -33,5 +34,24 @@ export async function GET(request: Request) {
       { success: false, error: 'Falha ao carregar os produtos' },
       { status: 500 }
     );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const { cods } = await request.json();
+
+    if (!cods || !Array.isArray(cods)) {
+      return NextResponse.json({ error: 'Códigos dos produtos não fornecidos' }, { status: 400 });
+    }
+
+    await connectToDatabase();
+
+    const produtos = await Produto.find({ cod: { $in: cods } }).lean();
+
+    return NextResponse.json(produtos);
+  } catch (error) {
+    console.error('Erro ao buscar produtos:', error);
+    return NextResponse.json({ error: 'Erro ao buscar produtos' }, { status: 500 });
   }
 }
