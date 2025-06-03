@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { ProdutoService } from '@/services/ProdutoService';
 import { connectToDatabase, Produto } from '@/lib/mongodb';
+import mongoose from 'mongoose';
 
 export async function GET(request: Request) {
   try {
@@ -42,11 +43,13 @@ export async function POST(request: Request) {
     const { cods } = await request.json();
 
     if (!cods || !Array.isArray(cods)) {
-      return NextResponse.json({ error: 'Códigos dos produtos não fornecidos' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Códigos dos produtos não fornecidos ou formato inválido' },
+        { status: 400 }
+      );
     }
 
     await connectToDatabase();
-
     const produtos = await Produto.find({ cod: { $in: cods } }).lean();
 
     return NextResponse.json(produtos);

@@ -56,10 +56,6 @@ const ProdutoSchema = new mongoose.Schema<IProduto>(
   { timestamps: true }
 );
 
-// Verificar se estamos no ambiente do servidor antes de criar o modelo
-const isServer = typeof window === 'undefined';
-
-// Criando o modelo Produto apenas no servidor
-export const Produto = isServer
-  ? mongoose.models.Produto || mongoose.model('Produto', ProdutoSchema, 'produtos')
-  : null;
+// Criando o modelo Produto
+export const Produto =
+  mongoose.models.Produto || mongoose.model('Produto', ProdutoSchema, 'produtos');
