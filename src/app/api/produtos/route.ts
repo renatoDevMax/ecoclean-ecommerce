@@ -50,7 +50,14 @@ export async function POST(request: Request) {
     }
 
     await connectToDatabase();
-    const produtos = await Produto.find({ cod: { $in: cods } }).lean();
+
+    if (!Produto) {
+      return NextResponse.json({ error: 'Modelo Produto não disponível' }, { status: 500 });
+    }
+
+    // Garantir que Produto é um modelo Mongoose válido
+    const ProdutoModel = Produto as mongoose.Model<any>;
+    const produtos = await ProdutoModel.find({ cod: { $in: cods } }).lean();
 
     return NextResponse.json(produtos);
   } catch (error) {
