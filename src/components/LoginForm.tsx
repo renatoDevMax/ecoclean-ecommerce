@@ -360,6 +360,10 @@ const RegisterModal = ({
                       </p>
                     </div>
                   </div>
+                  <p className="text-gray-500 text-sm text-center py-3">
+                    Seu cadastro será avaliado pelo administrativo, e então é verificado a
+                    disponibilização de acesso aos valores
+                  </p>
                 </div>
               </div>
 

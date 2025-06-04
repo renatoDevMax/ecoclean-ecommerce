@@ -167,7 +167,7 @@ export default function SobrePage() {
               </div>
               <div className="relative min-h-[300px] md:min-h-full">
                 <Image
-                  src="/destaque.jpg"
+                  src="/fotoFamilia.jpg"
                   fill
                   alt="Prateleira com produtos de limpeza organizados"
                   className="object-cover"
