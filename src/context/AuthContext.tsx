@@ -56,8 +56,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        setIsAuthenticated(true);
+        // Verifica se existe expiresAt e se já expirou
+        if (parsedUser.expiresAt && Date.now() > parsedUser.expiresAt) {
+          localStorage.removeItem('ecoCleanUser');
+        } else {
+          setUser(parsedUser);
+          setIsAuthenticated(true);
+        }
       } catch (err) {
         console.error('Erro ao recuperar usuário da sessão:', err);
         localStorage.removeItem('ecoCleanUser');
@@ -87,7 +92,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Armazenar no localStorage (excluindo a senha)
       delete data.user.senha;
-      localStorage.setItem('ecoCleanUser', JSON.stringify(data.user));
+      // Adiciona expiresAt para expirar em 24 horas
+      const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 horas em ms
+      const userToStore = { ...data.user, expiresAt };
+      localStorage.setItem('ecoCleanUser', JSON.stringify(userToStore));
 
       setUser(data.user);
       setIsAuthenticated(true);
