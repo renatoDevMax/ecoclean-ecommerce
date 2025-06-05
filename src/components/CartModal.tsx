@@ -102,7 +102,7 @@ https://wa.me/55${numeroTelefoneLimpo}
 
     try {
       const response = await enviarMensagemWhatsApp({
-        contato: '41987280741',
+        contato: '41997943219',
         mensagem: mensagemWhatsApp,
       });
 
