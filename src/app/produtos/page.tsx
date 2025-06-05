@@ -361,6 +361,11 @@ export default function Produtos() {
               Encontre a solução perfeita para suas necessidades de limpeza e organização
             </p>
 
+            <p className="text-xl text-white/90 drop-shadow-md mb-8">
+              Seus pedidos de produtos são verificados no estoque, entramos em contato com você
+              sempre para alinhar os produtos disponíveis no estoque frente ao pedido.
+            </p>
+
             <div className="h-1 w-24 bg-gradient-to-r from-[#173363] to-[#6EC747] mx-auto rounded-full"></div>
           </div>
         </div>
