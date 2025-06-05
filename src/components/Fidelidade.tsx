@@ -954,6 +954,27 @@ Número: ${formData.numero}
                     </div>
                   </div>
                 </div>
+
+                <div className="mt-6 bg-[#173363]/5 p-5 rounded-xl border border-[#173363]/10">
+                  <h4 className="text-lg font-medium text-[#173363] mb-3 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Informações Importantes sobre Créditos
+                  </h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    A cada compra realizada com seu cartão de fidelidade ou através de compras
+                    online, você acumula créditos que ficam disponíveis para resgate em até 24 horas
+                    após a compra. Estes créditos têm validade de 30 dias a partir da data de
+                    disponibilização, então aproveite para utilizá-los antes do vencimento!
+                  </p>
+                </div>
               </div>
             </div>
 
