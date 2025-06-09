@@ -507,3 +507,33 @@
     0 20px 25px -5px rgba(23, 51, 99, 0.1),
     0 10px 10px -5px rgba(23, 51, 99, 0.04);
 }
+
+/* Animações do formulário */
+.fade-in-element {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+}
+
+.fade-in-element.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Efeito de foco nos inputs */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(126, 193, 61, 0.2);
+}
+
+/* Animação do botão */
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(24, 50, 99, 0.15);
+}

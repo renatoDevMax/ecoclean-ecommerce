@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Se o cliente está autenticado, salvar crédito de fidelidade
+    /* Comentado temporariamente - Sistema de fidelidade desativado
     if (compra.clienteId) {
       // Criar o objeto de compra fidelidade
       const compraFidelidade = {
@@ -40,6 +41,7 @@ export async function POST(request: NextRequest) {
         // Continuamos mesmo com erro, já que a compra principal foi salva
       }
     }
+    */
 
     // 3. Enviar mensagem de WhatsApp
     const produtosFormatados = formatarProdutosParaMensagem(compra.produtos);
@@ -94,16 +96,20 @@ ${compra.pagamento}
 
 https://wa.me/55${compra.contato}`;
 
-    // Enviar a mensagem formatada
-    const contatoDestino = '4197943219';
+    // Enviar a mensagem formatada usando a nova rota
+    const resultadoMensagem = await fetch(
+      'https://web-production-cc27.up.railway.app/whatsapp/mensagemVenda',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mensagem }),
+      }
+    );
 
-    const resultadoMensagem = await enviarMensagemWhatsApp({
-      contato: contatoDestino,
-      mensagem: mensagem,
-    });
-
-    if (!resultadoMensagem.success) {
-      console.error('Erro ao enviar mensagem WhatsApp:', resultadoMensagem.error);
+    if (!resultadoMensagem.ok) {
+      console.error('Erro ao enviar mensagem WhatsApp:', await resultadoMensagem.text());
       // Continuamos mesmo com erro na mensagem, já que a compra principal foi salva
     }
 

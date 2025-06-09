@@ -40,13 +40,24 @@ export async function salvarCompra(
     await connectToDatabase();
 
     // Criando um modelo para a coleção "comprasClientes"
-    const ComprasClientesSchema = new mongoose.Schema({}, { strict: false });
+    const ComprasClientesSchema = new mongoose.Schema(
+      {
+        dataCompra: { type: Date, required: true },
+      },
+      { strict: false }
+    );
     const ComprasClientes =
       mongoose.models.ComprasClientes ||
       mongoose.model('ComprasClientes', ComprasClientesSchema, 'comprasClientes');
 
+    // Garantindo que dataCompra seja um objeto Date
+    const compraParaSalvar = {
+      ...compra,
+      dataCompra: new Date(compra.dataCompra),
+    };
+
     // Inserindo o documento na coleção
-    const result = await (ComprasClientes as any).create(compra);
+    const result = await (ComprasClientes as any).create(compraParaSalvar);
 
     return { success: true, id: result._id.toString() };
   } catch (error) {
@@ -88,13 +99,16 @@ export async function enviarMensagemWhatsApp(mensagem: {
   mensagem: string;
 }): Promise<{ success: boolean; error?: string }> {
   try {
-    const response = await fetch('https://web-production-42b00.up.railway.app/whatsapp/mensagem', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(mensagem),
-    });
+    const response = await fetch(
+      'https://web-production-cc27.up.railway.app/whatsapp/mensagemVenda',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(mensagem),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Erro ao enviar mensagem: ${response.status}`);

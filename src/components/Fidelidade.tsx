@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const Fidelidade = () => {
+  const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
   const [rewardsModalOpen, setRewardsModalOpen] = useState(false);
   const [coverageModalOpen, setCoverageModalOpen] = useState(false);
@@ -406,7 +408,7 @@ Número: ${formData.numero}
         <div className="mt-20 text-center">
           <div className="inline-block relative group reveal-scale reveal-delay-5">
             <button
-              onClick={handleOpenModal}
+              onClick={() => router.push('/cadastro')}
               className="relative px-10 py-4 bg-white text-[#173363] group-hover:text-white text-lg font-medium rounded-full 
                         hover:shadow-lg hover:shadow-black/20 hover:-translate-y-1 border-2 border-transparent
                         transition-all duration-500 z-10 overflow-hidden"
@@ -994,7 +996,7 @@ Número: ${formData.numero}
                   <button
                     onClick={() => {
                       handleCloseRewardsModal();
-                      handleOpenModal();
+                      router.push('/cadastro');
                     }}
                     className="px-5 py-2 bg-gradient-to-r from-[#173363] to-[#6EC747] text-white rounded-lg hover:shadow-md transition-all"
                   >
@@ -1210,7 +1212,7 @@ Número: ${formData.numero}
                   <button
                     onClick={() => {
                       handleCloseCoverageModal();
-                      handleOpenModal();
+                      router.push('/cadastro');
                     }}
                     className="px-5 py-2 bg-gradient-to-r from-[#6EC747] to-[#173363] text-white rounded-lg hover:shadow-md transition-all"
                   >
@@ -1522,7 +1524,7 @@ Número: ${formData.numero}
                   <button
                     onClick={() => {
                       handleCloseFinancialModal();
-                      handleOpenModal();
+                      router.push('/cadastro');
                     }}
                     className="px-5 py-2 bg-gradient-to-r from-[#173363] to-[#6EC747] text-white rounded-lg hover:shadow-md transition-all"
                   >

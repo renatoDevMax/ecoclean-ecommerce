@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { createPortal } from 'react-dom';
+import Link from 'next/link';
 
 // Interface para os dados do formulário
 interface RegisterFormData {
@@ -425,223 +426,59 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ onSubmit }: LoginFormProps) {
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
-  const { login, loading, error: authError } = useAuth();
-  const [error, setError] = useState('');
   const router = useRouter();
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const [feedback, setFeedback] = useState<RegisterFeedback | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<RegisterFormData>({
-    nome: '',
-    cpfcnpj: '',
-    endereco: '',
-    contato: '',
-    email: '',
-    senha: '',
-    confirmarSenha: '',
-    participarProgramaFidelidade: false,
-  });
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
+  const [showRecuperacaoModal, setShowRecuperacaoModal] = useState(false);
+  const [emailRecuperacao, setEmailRecuperacao] = useState('');
+  const { login, loading, error: authError } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setErro('');
 
     try {
       if (onSubmit) {
-        onSubmit(identifier, password);
+        onSubmit(email, senha);
       } else {
-        // Usando o contexto de autenticação para fazer login
-        const success = await login(identifier, password);
+        const success = await login(email, senha);
         if (success) {
-          // Redirecionamento após login bem-sucedido
           router.push('/');
         }
       }
     } catch (err) {
-      setError('Falha ao fazer login. Verifique suas credenciais.');
+      setErro('Falha ao fazer login. Verifique suas credenciais.');
     }
   };
 
-  const handleOpenRegisterModal = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    setShowRegisterModal(true);
-    setFeedback(null);
-  }, []);
-
-  const handleCloseRegisterModal = useCallback(() => {
-    setShowRegisterModal(false);
-    setFeedback(null);
-    setFormData({
-      nome: '',
-      cpfcnpj: '',
-      endereco: '',
-      contato: '',
-      email: '',
-      senha: '',
-      confirmarSenha: '',
-      participarProgramaFidelidade: false,
-    });
-  }, []);
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  }, []);
-
-  const handleRegisterSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setIsLoading(true);
-
-      try {
-        // Verificar se as senhas correspondem
-        if (formData.senha !== formData.confirmarSenha) {
-          setFeedback({
-            status: 'error',
-            message: 'As senhas não correspondem!',
-          });
-          setIsLoading(false);
-          return;
-        }
-
-        // Formatar o objeto para o banco de dados
-        const userData = {
-          nome: formData.nome,
-          cpfcnpj: formData.cpfcnpj,
-          endereco: formData.endereco,
-          contato: formData.contato,
-          beneficios: [],
-          tipoCliente: 'matriz',
-          dataCadastro: new Date().toISOString(),
-          email: formData.email,
-          senha: formData.senha,
-          tempo: 0,
-        };
-
-        console.log('Tentando salvar usuário:', userData);
-
-        // 1. Salvar o usuário no banco de dados usando a nova API no App Router
-        const dbResponse = await fetch('/api/cadastro', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            document: userData,
-          }),
-        });
-
-        // Registrar detalhes da resposta para debug
-        console.log('Resposta do servidor:', dbResponse.status, dbResponse.statusText);
-
-        const responseData = await dbResponse.json();
-        console.log('Dados da resposta:', responseData);
-
-        if (!dbResponse.ok) {
-          throw new Error(responseData.message || 'Erro ao salvar no banco de dados');
-        }
-
-        // 2. Se o checkbox estiver marcado, enviar mensagem WhatsApp
-        if (formData.participarProgramaFidelidade) {
-          const mensagemWhatsapp = `
-*Cliente interessado no Programa de Fidelidade*
-${formData.nome}
-
-${formData.endereco}
-
-${formData.cpfcnpj}
-${formData.email}
-
-wa.me/55${formData.contato.replace(/\D/g, '')}
-`;
-
-          try {
-            const whatsappResponse = await fetch(
-              'https://web-production-42b00.up.railway.app/whatsapp/mensagem',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  contato: '4187280741',
-                  mensagem: mensagemWhatsapp,
-                }),
-              }
-            );
-
-            if (!whatsappResponse.ok) {
-              console.warn('Aviso: Erro ao enviar mensagem WhatsApp, mas cadastro continuará');
-            } else {
-              const resposta = await whatsappResponse.json();
-              console.log('Resposta do WhatsApp:', resposta);
-            }
-          } catch (whatsappError) {
-            console.error('Erro na API do WhatsApp:', whatsappError);
-            // Continuamos o fluxo mesmo com erro no WhatsApp
-          }
-        }
-
-        // Exibir feedback de sucesso
-        setFeedback({
-          status: 'success',
-          message: 'Cadastro realizado com sucesso!',
-        });
-      } catch (error) {
-        console.error('Erro no cadastro:', error);
-
-        // Verificar o tipo específico de erro para fornecer feedback adequado
-        let mensagemErro =
-          'Ocorreu um erro ao realizar o cadastro. Por favor, tente novamente mais tarde.';
-
-        if (error instanceof Error) {
-          if (error.message.includes('Já existe um usuário')) {
-            mensagemErro = 'Já existe um usuário com este email ou CPF/CNPJ.';
-          } else if (error.message.includes('conexão')) {
-            mensagemErro =
-              'Erro de conexão com o servidor. Verifique sua internet e tente novamente.';
-          }
-          // Usar a mensagem de erro real se disponível
-          else {
-            mensagemErro = error.message;
-          }
-        }
-
-        setFeedback({
-          status: 'error',
-          message: mensagemErro,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [formData]
-  );
+  const handleRecuperacaoSenha = () => {
+    const mensagem = `Olá, esqueci minha senha e gostaria de cadastrar uma nova senha, segue meu email: ${emailRecuperacao}`;
+    const url = `https://wa.me/5541997943219?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+    setShowRecuperacaoModal(false);
+    setEmailRecuperacao('');
+  };
 
   // Usar o erro do contexto, se existir
-  const displayError = authError || error;
+  const displayError = authError || erro;
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <>
       <form
         onSubmit={handleSubmit}
         className="bg-white/80 backdrop-blur-sm rounded-lg shadow-xl p-8 animate-fade-in-up"
       >
         <div className="mb-6">
-          <label htmlFor="identifier" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
             Nome ou Email
           </label>
           <div className="relative">
             <input
-              id="identifier"
+              id="email"
               type="text"
-              value={identifier}
-              onChange={e => setIdentifier(e.target.value)}
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
               placeholder="Seu nome ou email"
               required
@@ -651,15 +488,15 @@ wa.me/55${formData.contato.replace(/\D/g, '')}
         </div>
 
         <div className="mb-8">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="senha" className="block text-sm font-medium text-gray-700 mb-1">
             Senha
           </label>
           <div className="relative">
             <input
-              id="password"
+              id="senha"
               type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              value={senha}
+              onChange={e => setSenha(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
               placeholder="Sua senha"
               required
@@ -673,6 +510,16 @@ wa.me/55${formData.contato.replace(/\D/g, '')}
             {displayError}
           </div>
         )}
+
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => setShowRecuperacaoModal(true)}
+            className="text-sm text-[#173363] hover:text-[#6EC747] transition-colors"
+          >
+            Esqueceu sua senha?
+          </button>
+        </div>
 
         <button
           type="submit"
@@ -705,39 +552,70 @@ wa.me/55${formData.contato.replace(/\D/g, '')}
           )}
         </button>
 
-        <div className="mt-6 text-center">
-          <a
-            href="#"
-            className="text-sm text-primary hover:text-primary-light transition-colors duration-300"
-          >
-            Esqueceu sua senha?
-          </a>
-        </div>
-
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
             Não tem uma conta?{' '}
-            <a
-              href="#"
-              onClick={handleOpenRegisterModal}
+            <Link
+              href="/cadastro"
               className="text-primary hover:text-primary-light font-medium transition-colors duration-300"
             >
               Cadastre-se
-            </a>
+            </Link>
           </p>
         </div>
       </form>
 
-      {/* Renderizar o modal usando portal para garantir que fique no centro da tela */}
-      <RegisterModal
-        isOpen={showRegisterModal}
-        onClose={handleCloseRegisterModal}
-        formData={formData}
-        handleChange={handleChange}
-        handleSubmit={handleRegisterSubmit}
-        feedback={feedback}
-        isLoading={isLoading}
-      />
-    </div>
+      {/* Modal de Recuperação de Senha */}
+      {showRecuperacaoModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 transform transition-all animate-fade-in">
+            <h2 className="text-2xl font-bold text-[#173363] mb-6 text-center">
+              Solicitar recadastro da senha
+            </h2>
+
+            <div className="space-y-6">
+              <div>
+                <label
+                  htmlFor="emailRecuperacao"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="emailRecuperacao"
+                  value={emailRecuperacao}
+                  onChange={e => setEmailRecuperacao(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7EC13D] focus:border-transparent transition-all"
+                  placeholder="seu@email.com"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowRecuperacaoModal(false);
+                    setEmailRecuperacao('');
+                  }}
+                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  onClick={handleRecuperacaoSenha}
+                  disabled={!emailRecuperacao}
+                  className="px-6 py-2 bg-gradient-to-r from-[#173363] to-[#6EC747] text-white rounded-lg hover:shadow-lg hover:shadow-[#173363]/20 hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Abrir Solicitação
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -342,155 +342,157 @@ export default function DestaquesProds() {
           {/* Contêiner do carrossel */}
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {produtosDestaque.map((produto, index) => (
-                <div
-                  key={produto._id}
-                  className="flex-[0_0_100%] min-w-0 pl-4 sm:flex-[0_0_50%] md:flex-[0_0_33.333%] lg:flex-[0_0_25%]"
-                >
+              {produtosDestaque
+                .filter(produto => produto.ativado)
+                .map((produto, index) => (
                   <div
-                    onClick={() => setSelectedProduct(produto)}
-                    data-id={produto._id}
-                    className={`product-item group relative transition-all duration-700 h-full animate-on-scroll ${
-                      visibleProducts.includes(produto._id)
-                        ? 'opacity-100 translate-y-0'
-                        : 'opacity-0 translate-y-16'
-                    }`}
-                    style={{
-                      transitionDelay: `${index * 100}ms`,
-                    }}
-                    onMouseEnter={() => setHoveredProduct(produto._id)}
-                    onMouseLeave={() => setHoveredProduct(null)}
+                    key={produto._id}
+                    className="flex-[0_0_100%] min-w-0 pl-4 sm:flex-[0_0_50%] md:flex-[0_0_33.333%] lg:flex-[0_0_25%]"
                   >
-                    {/* Card do produto com estilo premium */}
-                    <div className="h-full flex flex-col bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1">
-                      {/* Área da imagem */}
-                      <div className="relative overflow-hidden h-64">
-                        {/* Badge de categoria no canto superior */}
-                        <div className="absolute top-4 left-4 z-20">
-                          <span className="bg-white/90 backdrop-blur-sm text-[#173363] text-xs font-medium py-1 px-3 rounded-full">
-                            {produto.categoria}
-                          </span>
-                        </div>
-
-                        {/* Imagem do produto com efeito de zoom suave */}
-                        <div className="relative w-full h-full">
-                          <Image
-                            src={produto.imagem}
-                            alt={produto.nome}
-                            fill
-                            className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                          />
-
-                          {/* Overlay gradiente que aparece no hover */}
-                          <div
-                            className={`absolute inset-0 bg-gradient-to-t from-[#173363]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                          ></div>
-                        </div>
-
-                        {/* Botão que aparece no hover */}
-                        <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex justify-center p-4">
-                          <button className="bg-white hover:bg-[#6EC747] text-[#173363] hover:text-white px-6 py-2 rounded-full shadow-lg transform group-hover:scale-105 transition-all duration-300 flex items-center">
-                            <span>Ver Detalhes</span>
-                            <svg
-                              className="w-4 h-4 ml-2 transition-all duration-300 group-hover:translate-x-1"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.5"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Conteúdo do produto */}
-                      <div className="p-6 flex-grow flex flex-col">
-                        <h3 className="text-xl font-medium text-[#173363] mb-2 line-clamp-1">
-                          {produto.nome}
-                        </h3>
-
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
-                          {produto.descricao}
-                        </p>
-
-                        <div className="mt-auto">
-                          {/* Preço e condições */}
-                          <div className="flex items-end justify-between mb-4">
-                            {isOrcamentoAtivo ? (
-                              <div className="text-sm font-light text-gray-600">
-                                Faça seu login para visualizar
-                              </div>
-                            ) : (
-                              <>
-                                <div className="text-2xl font-light text-[#173363]">
-                                  {formatarPreco(produto.preco)}
-                                </div>
-                              </>
-                            )}
+                    <div
+                      onClick={() => setSelectedProduct(produto)}
+                      data-id={produto._id}
+                      className={`product-item group relative transition-all duration-700 h-full animate-on-scroll ${
+                        visibleProducts.includes(produto._id)
+                          ? 'opacity-100 translate-y-0'
+                          : 'opacity-0 translate-y-16'
+                      }`}
+                      style={{
+                        transitionDelay: `${index * 100}ms`,
+                      }}
+                      onMouseEnter={() => setHoveredProduct(produto._id)}
+                      onMouseLeave={() => setHoveredProduct(null)}
+                    >
+                      {/* Card do produto com estilo premium */}
+                      <div className="h-full flex flex-col bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1">
+                        {/* Área da imagem */}
+                        <div className="relative overflow-hidden h-64">
+                          {/* Badge de categoria no canto superior */}
+                          <div className="absolute top-4 left-4 z-20">
+                            <span className="bg-white/90 backdrop-blur-sm text-[#173363] text-xs font-medium py-1 px-3 rounded-full">
+                              {produto.categoria}
+                            </span>
                           </div>
 
-                          {/* Botão de adicionar ao carrinho */}
-                          <button
-                            onClick={e => {
-                              e.stopPropagation(); // Evitar abrir o modal ao clicar no botão
-                              addToCart(convertToCartProduct(produto));
-                            }}
-                            className="w-full bg-[#173363]/5 hover:bg-[#173363] text-[#173363] hover:text-white py-3 rounded-lg transition-colors duration-300 flex items-center justify-center group/btn"
-                          >
-                            <svg
-                              className="w-5 h-5 mr-2"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                          {/* Imagem do produto com efeito de zoom suave */}
+                          <div className="relative w-full h-full">
+                            <Image
+                              src={produto.imagem}
+                              alt={produto.nome}
+                              fill
+                              className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                            />
+
+                            {/* Overlay gradiente que aparece no hover */}
+                            <div
+                              className={`absolute inset-0 bg-gradient-to-t from-[#173363]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                            ></div>
+                          </div>
+
+                          {/* Botão que aparece no hover */}
+                          <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex justify-center p-4">
+                            <button className="bg-white hover:bg-[#6EC747] text-[#173363] hover:text-white px-6 py-2 rounded-full shadow-lg transform group-hover:scale-105 transition-all duration-300 flex items-center">
+                              <span>Ver Detalhes</span>
+                              <svg
+                                className="w-4 h-4 ml-2 transition-all duration-300 group-hover:translate-x-1"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="1.5"
+                                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Conteúdo do produto */}
+                        <div className="p-6 flex-grow flex flex-col">
+                          <h3 className="text-xl font-medium text-[#173363] mb-2 line-clamp-1">
+                            {produto.nome}
+                          </h3>
+
+                          <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
+                            {produto.descricao}
+                          </p>
+
+                          <div className="mt-auto">
+                            {/* Preço e condições */}
+                            <div className="flex items-end justify-between mb-4">
+                              {isOrcamentoAtivo ? (
+                                <div className="text-sm font-light text-gray-600">
+                                  Faça seu login para visualizar
+                                </div>
+                              ) : (
+                                <>
+                                  <div className="text-2xl font-light text-[#173363]">
+                                    {formatarPreco(produto.preco)}
+                                  </div>
+                                </>
+                              )}
+                            </div>
+
+                            {/* Botão de adicionar ao carrinho */}
+                            <button
+                              onClick={e => {
+                                e.stopPropagation(); // Evitar abrir o modal ao clicar no botão
+                                addToCart(convertToCartProduct(produto));
+                              }}
+                              className="w-full bg-[#173363]/5 hover:bg-[#173363] text-[#173363] hover:text-white py-3 rounded-lg transition-colors duration-300 flex items-center justify-center group/btn"
                             >
-                              <path
-                                d="M3 6H5H21"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M12 11V17"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M9 14H15"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                            Adicionar ao Carrinho
-                          </button>
+                              <svg
+                                className="w-5 h-5 mr-2"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M3 6H5H21"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M12 11V17"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M9 14H15"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                              Adicionar ao Carrinho
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Efeito de brilho no card quando hover */}
-                    <div
-                      className={`absolute inset-0 -z-10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 
+                      {/* Efeito de brilho no card quando hover */}
+                      <div
+                        className={`absolute inset-0 -z-10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 
                                  bg-gradient-to-r from-[#173363]/10 via-[#6EC747]/10 to-[#173363]/10 blur-xl`}
-                    ></div>
+                      ></div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
 
