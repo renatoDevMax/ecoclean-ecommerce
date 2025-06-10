@@ -280,7 +280,7 @@ https://wa.me/55${limparFormatacao(formData.contato)}
                   value={formData.nomeCompleto}
                   onChange={handleChange}
                   required
-                  placeholder="Informe seu nome aqui"
+                  placeholder="Seu nome, Empresa ou Condomínio"
                   className="w-full px-4 py-2 rounded-lg border border-gray-200 bg-white/50 focus:ring-2 focus:ring-[#7EC13D] focus:border-transparent transition-all backdrop-blur-sm"
                 />
               </div>
