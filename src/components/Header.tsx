@@ -103,6 +103,39 @@ export default function Header() {
                 </li>
               ))}
 
+              {/* Botão Lica Responde */}
+              <li>
+                <a
+                  href="https://responde-lica.vercel.app/"
+                  className="relative inline-flex items-center py-1.5 px-4 overflow-hidden rounded-full bg-gradient-to-r from-[#173363]/10 to-[#6EC747]/10 hover:from-[#173363] hover:to-[#6EC747] group/lica transition-all duration-500"
+                >
+                  <span className="relative z-10 text-[#173363] group-hover/lica:text-white transition-colors duration-300 text-sm font-medium flex items-center">
+                    <svg
+                      className="w-4 h-4 mr-1.5 text-[#6EC747] group-hover/lica:text-white transition-colors duration-300"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 6V22M12 22L15 19M12 22L9 19"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Lica Responde
+                  </span>
+                </a>
+              </li>
+
               {/* Botão EcoClean Piscinas - Só aparece se o usuário tiver o benefício específico */}
               {hasPoolAccess && (
                 <li>
@@ -338,16 +371,60 @@ export default function Header() {
                 </li>
               ))}
 
+              {/* Link Lica Responde no mobile */}
+              <li
+                style={{
+                  animationDelay: `${['Home', 'Sobre', 'Produtos', 'Contato'].length * 100}ms`,
+                  opacity: mobileMenuOpen ? 1 : 0,
+                  transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(-10px)',
+                  transition: 'opacity 300ms ease, transform 300ms ease',
+                  transitionDelay: mobileMenuOpen
+                    ? `${['Home', 'Sobre', 'Produtos', 'Contato'].length * 100}ms`
+                    : '0ms',
+                }}
+              >
+                <a
+                  href="https://responde-lica.vercel.app/"
+                  className="block text-[#173363] hover:text-[#6EC747] transition-colors duration-300"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 h-4 mr-1.5 text-[#6EC747]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 6V22M12 22L15 19M12 22L9 19"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Lica Responde
+                  </div>
+                </a>
+              </li>
+
               {/* Link EcoClean Piscinas no mobile - só aparece para usuários com o benefício */}
               {hasPoolAccess && (
                 <li
                   style={{
-                    animationDelay: `${['Home', 'Sobre', 'Produtos', 'Contato'].length * 100}ms`,
+                    animationDelay: `${['Home', 'Sobre', 'Produtos', 'Contato'].length * 100 + 100}ms`,
                     opacity: mobileMenuOpen ? 1 : 0,
                     transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(-10px)',
                     transition: 'opacity 300ms ease, transform 300ms ease',
                     transitionDelay: mobileMenuOpen
-                      ? `${['Home', 'Sobre', 'Produtos', 'Contato'].length * 100}ms`
+                      ? `${['Home', 'Sobre', 'Produtos', 'Contato'].length * 100 + 100}ms`
                       : '0ms',
                   }}
                 >

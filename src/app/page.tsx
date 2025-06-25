@@ -6,6 +6,7 @@ import Partners from '@/components/Partners';
 import Footer from '@/components/Footer';
 import DestaquesProds from '@/components/DestaquesProds';
 import Fidelidade from '@/components/Fidelidade';
+import LicaResponde from '@/components/LicaResponde';
 
 // Dados dos produtos em destaque
 
@@ -124,6 +125,9 @@ export default function Home() {
 
       {/* Seção de Programa de Fidelidade */}
       <Fidelidade />
+
+      {/* Seção da Lica Responde */}
+      <LicaResponde />
 
       {/* Seção de Produtos em Destaque */}
       <DestaquesProds />

@@ -9,6 +9,7 @@ const Fidelidade = () => {
   const [rewardsModalOpen, setRewardsModalOpen] = useState(false);
   const [coverageModalOpen, setCoverageModalOpen] = useState(false);
   const [financialModalOpen, setFinancialModalOpen] = useState(false);
+  const [piscinasModalOpen, setPiscinasModalOpen] = useState(false);
   const [successNotification, setSuccessNotification] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [enviando, setEnviando] = useState(false);
@@ -70,6 +71,15 @@ const Fidelidade = () => {
 
   const handleCloseFinancialModal = () => {
     setFinancialModalOpen(false);
+  };
+
+  const handleOpenPiscinasModal = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setPiscinasModalOpen(true);
+  };
+
+  const handleClosePiscinasModal = () => {
+    setPiscinasModalOpen(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -210,9 +220,9 @@ Número: ${formData.numero}
         </div>
 
         {/* Área de benefícios com layout moderno e elegante */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8 lg:gap-12 relative">
           {/* Linha decorativa conectando os cartões - apenas visível em telas grandes */}
-          <div className="hidden lg:block absolute top-28 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-[#173363]/10 via-[#6EC747]/30 to-[#173363]/10"></div>
+          <div className="hidden xl:block absolute top-28 left-1/2 -translate-x-1/2 w-[90%] h-px bg-gradient-to-r from-[#173363]/10 via-[#6EC747]/30 to-[#173363]/10"></div>
 
           {/* Benefício 1 - Economia */}
           <div className="relative reveal-left reveal-delay-2 flex flex-col items-center">
@@ -347,7 +357,7 @@ Número: ${formData.numero}
           </div>
 
           {/* Benefício 3 - Flexibilidade */}
-          <div className="relative reveal-right reveal-delay-2 flex flex-col items-center">
+          <div className="relative reveal reveal-delay-4 flex flex-col items-center">
             <div className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center mb-10 relative z-10">
               <svg
                 className="w-8 h-8 text-[#173363]"
@@ -386,6 +396,85 @@ Número: ${formData.numero}
             >
               <span className="font-light border-b border-[#173363]/30 group-hover:border-[#6EC747]">
                 Explorar condições
+              </span>
+              <svg
+                className="w-4 h-4 ml-2 transition-all duration-300 group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </a>
+          </div>
+
+          {/* Benefício 4 - Piscinas */}
+          <div className="relative reveal-right reveal-delay-5 flex flex-col items-center">
+            <div className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center mb-10 relative z-10">
+              <svg
+                className="w-8 h-8 text-[#173363]"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M12 6V22M12 22L15 19M12 22L9 19"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M8 12C8 10.9 7.1 10 6 10C4.9 10 4 10.9 4 12C4 13.1 4.9 14 6 14C7.1 14 8 13.1 8 12Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M20 12C20 10.9 19.1 10 18 10C16.9 10 16 10.9 16 12C16 13.1 16.9 14 18 14C19.1 14 20 13.1 20 12Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 14L6 22M18 14L18 22"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-medium text-[#173363] mb-2 text-center">
+              EcoClean Descomplica Piscinas
+            </h3>
+            <div className="w-12 h-0.5 bg-gradient-to-r from-[#6EC747] to-[#173363] mb-4"></div>
+            <p className="text-gray-600 text-center leading-relaxed">
+              Sistema automatizado que calcula a quantidade ideal de produtos baseado nas dimensões
+              da sua piscina e PH. Resolve problemas como água verde, turva, oleosa e alcalinidade,
+              mantendo sua piscina sempre cristalina.
+            </p>
+            <a
+              href="#"
+              onClick={handleOpenPiscinasModal}
+              className="mt-6 flex items-center text-[#173363] hover:text-[#6EC747] transition-all duration-300 group"
+            >
+              <span className="font-light border-b border-[#173363]/30 group-hover:border-[#6EC747]">
+                Conhecer o sistema
               </span>
               <svg
                 className="w-4 h-4 ml-2 transition-all duration-300 group-hover:translate-x-1"
@@ -1529,6 +1618,313 @@ Número: ${formData.numero}
                     className="px-5 py-2 bg-gradient-to-r from-[#173363] to-[#6EC747] text-white rounded-lg hover:shadow-md transition-all"
                   >
                     Solicitar avaliação
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal do EcoClean Descomplica Piscinas */}
+      {piscinasModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Overlay com efeito de desfoque */}
+          <div
+            className="absolute inset-0 bg-[#173363]/30 backdrop-blur-sm"
+            onClick={handleClosePiscinasModal}
+          ></div>
+
+          {/* Modal Container */}
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] relative z-10 animate-scale-in overflow-hidden flex flex-col">
+            {/* Modal Header com gradiente elegante */}
+            <div className="bg-gradient-to-r from-[#6EC747] to-[#173363] p-6 text-white">
+              <div className="flex justify-between items-center">
+                <h3 className="text-2xl font-light">
+                  EcoClean <span className="font-semibold">Descomplica Piscinas</span>
+                </h3>
+                <button
+                  onClick={handleClosePiscinasModal}
+                  className="text-white/80 hover:text-white transition-colors duration-300"
+                >
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body com scroll */}
+            <div className="overflow-y-auto p-6 flex-grow">
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-xl font-medium text-[#173363] mb-3">
+                    Como funciona nosso sistema?
+                  </h4>
+                  <p className="text-gray-600 leading-relaxed">
+                    O EcoClean Descomplica Piscinas é um sistema automatizado que calcula a
+                    quantidade ideal de produtos baseado em apenas 4 informações simples: largura,
+                    altura, profundidade e PH da sua piscina. Com esses dados, o sistema resolve
+                    automaticamente todos os problemas comuns, mantendo sua água sempre cristalina.
+                  </p>
+                </div>
+
+                <div className="bg-[#173363]/5 p-5 rounded-xl border border-[#173363]/10">
+                  <h4 className="text-lg font-medium text-[#173363] mb-3 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Informações necessárias
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-white rounded-lg p-4 shadow-sm">
+                      <h5 className="font-medium text-[#173363] mb-2">Dimensões da piscina</h5>
+                      <p className="text-sm text-gray-600">
+                        Largura, altura e profundidade para cálculo preciso do volume.
+                      </p>
+                    </div>
+                    <div className="bg-white rounded-lg p-4 shadow-sm">
+                      <h5 className="font-medium text-[#173363] mb-2">PH da água</h5>
+                      <p className="text-sm text-gray-600">
+                        Medição do PH atual para ajuste preciso dos produtos.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xl font-medium text-[#173363] mb-3 flex items-center">
+                    <svg className="w-6 h-6 mr-2 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Problemas que o sistema resolve
+                  </h4>
+                  <div className="space-y-4 mt-4">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#6EC747]/10 flex items-center justify-center mr-4">
+                        <svg className="w-5 h-5 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M12 8V13L15 16M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-[#173363]">Água verde</h5>
+                        <p className="text-gray-600 text-sm mt-1">
+                          Elimina algas e restaura a cor cristalina da água com produtos
+                          específicos.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#6EC747]/10 flex items-center justify-center mr-4">
+                        <svg className="w-5 h-5 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-[#173363]">Água turva</h5>
+                        <p className="text-gray-600 text-sm mt-1">
+                          Remove partículas em suspensão e restaura a transparência da água.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#6EC747]/10 flex items-center justify-center mr-4">
+                        <svg className="w-5 h-5 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-[#173363]">Água oleosa</h5>
+                        <p className="text-gray-600 text-sm mt-1">
+                          Remove óleos e cremes solares que se acumulam na superfície da água.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#6EC747]/10 flex items-center justify-center mr-4">
+                        <svg className="w-5 h-5 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-[#173363]">Alcalinidade desregulada</h5>
+                        <p className="text-gray-600 text-sm mt-1">
+                          Ajusta o PH e a alcalinidade para níveis ideais de conforto e segurança.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#6EC747]/10 flex items-center justify-center mr-4">
+                        <svg className="w-5 h-5 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-[#173363]">Manutenção preventiva</h5>
+                        <p className="text-gray-600 text-sm mt-1">
+                          Orientações para manutenção diária e semanal, evitando problemas futuros.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-white border border-gray-200 shadow-sm rounded-lg p-4 text-center">
+                    <div className="w-12 h-12 bg-[#173363]/5 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-[#173363]" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2Z"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M12 6V22M12 22L15 19M12 22L9 19"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <h5 className="font-medium text-[#173363] mb-1">Informe os dados</h5>
+                    <p className="text-sm text-gray-500">
+                      Largura, altura, profundidade e PH da sua piscina
+                    </p>
+                  </div>
+                  <div className="bg-white border border-gray-200 shadow-sm rounded-lg p-4 text-center">
+                    <div className="w-12 h-12 bg-[#173363]/5 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-[#173363]" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <h5 className="font-medium text-[#173363] mb-1">Cálculo automático</h5>
+                    <p className="text-sm text-gray-500">
+                      Sistema calcula quantidades exatas de produtos necessários
+                    </p>
+                  </div>
+                  <div className="bg-white border border-gray-200 shadow-sm rounded-lg p-4 text-center">
+                    <div className="w-12 h-12 bg-[#173363]/5 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-[#173363]" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <h5 className="font-medium text-[#173363] mb-1">Água cristalina</h5>
+                    <p className="text-sm text-gray-500">
+                      Aplique os produtos e mantenha sua piscina sempre perfeita
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 bg-[#173363]/5 p-5 rounded-xl border border-[#173363]/10">
+                  <h4 className="text-lg font-medium text-[#173363] mb-3 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-[#6EC747]" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Informações Importantes
+                  </h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    O sistema EcoClean Descomplica Piscinas está disponível exclusivamente para
+                    membros do programa de fidelidade. Após o cadastro, você terá acesso ao sistema
+                    automatizado que calcula instantaneamente as quantidades ideais de produtos para
+                    resolver qualquer problema da sua piscina.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to action */}
+            <div className="p-6 border-t border-gray-100 bg-gray-50">
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p className="text-gray-600 text-sm">
+                  Quer descomplicar o tratamento da sua piscina?
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleClosePiscinasModal}
+                    className="px-5 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+                  >
+                    Fechar
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleClosePiscinasModal();
+                      router.push('/cadastro');
+                    }}
+                    className="px-5 py-2 bg-gradient-to-r from-[#6EC747] to-[#173363] text-white rounded-lg hover:shadow-md transition-all"
+                  >
+                    Tornar-se membro premium
                   </button>
                 </div>
               </div>
