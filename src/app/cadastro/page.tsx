@@ -219,31 +219,37 @@ ${beneficiosSelecionados.map(beneficio => `- ${beneficio}`).join('\n')}
 https://wa.me/55${limparFormatacao(formData.contato)}
 `;
 
-      // Enviar mensagem para o WhatsApp
-      const whatsappResponse = await fetch(
-        'https://web-production-cc27.up.railway.app/whatsapp/mensagemCadastro',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            mensagem: mensagemWhatsApp,
-          }),
-        }
-      );
+      // Tentar enviar mensagem para o WhatsApp (não bloqueia o fluxo)
+      try {
+        const whatsappResponse = await fetch(
+          'https://web-production-cc27.up.railway.app/whatsapp/mensagemCadastro',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              mensagem: mensagemWhatsApp,
+            }),
+          }
+        );
 
-      const whatsappData = await whatsappResponse.json();
-
-      if (whatsappData.mensagemEnviada) {
-        // Mostrar o modal de sucesso
-        setShowModal(true);
-
-        // Redirecionar após 5 segundos
-        setTimeout(() => {
-          router.push('/login');
-        }, 8000);
+        const whatsappData = await whatsappResponse.json();
+        console.log(
+          'Status do envio WhatsApp:',
+          whatsappData.mensagemEnviada ? 'Sucesso' : 'Falha'
+        );
+      } catch (whatsappError) {
+        console.error('Erro ao enviar mensagem WhatsApp:', whatsappError);
       }
+
+      // Independente do resultado do WhatsApp, mostrar sucesso
+      setShowModal(true);
+
+      // Redirecionar após 8 segundos
+      setTimeout(() => {
+        router.push('/login');
+      }, 8000);
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
       // Aqui você pode adicionar uma mensagem de erro para o usuário
