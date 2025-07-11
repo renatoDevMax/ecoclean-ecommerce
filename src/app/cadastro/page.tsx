@@ -162,7 +162,7 @@ export default function Cadastro() {
       cpfcnpj: cpfCnpjFormatado,
       endereco: formData.endereco,
       contato: limparFormatacao(formData.contato),
-      beneficios: [], // Array de strings conforme o schema
+      beneficios: ['Sistema de economia com crédito'], // Benefício padrão incluído
       tipoCliente: 'matriz',
       dataCadastro: new Date(),
       email: formData.email,
