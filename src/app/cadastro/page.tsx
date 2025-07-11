@@ -9,6 +9,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/solid';
 export default function Cadastro() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     nomeCompleto: '',
     cpfCnpj: '',
@@ -141,6 +142,11 @@ export default function Cadastro() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Prevenir múltiplos envios
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
     // Função para remover caracteres especiais
     const limparFormatacao = (valor: string) => {
       return valor.replace(/\D/g, '');
@@ -253,6 +259,8 @@ https://wa.me/55${limparFormatacao(formData.contato)}
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
       // Aqui você pode adicionar uma mensagem de erro para o usuário
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -548,11 +556,14 @@ https://wa.me/55${limparFormatacao(formData.contato)}
               </button>
               <button
                 type="submit"
-                className="px-8 py-3 bg-gradient-to-r from-[#7EC13D] to-[#6EC747] text-white font-medium rounded-full
-                         hover:from-[#6EC747] hover:to-[#5AB636] transition-all duration-300
-                         hover:shadow-lg hover:shadow-[#183263]/20 hover:-translate-y-1"
+                disabled={isSubmitting}
+                className={`px-8 py-3 font-medium rounded-full transition-all duration-300 ${
+                  isSubmitting
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-[#7EC13D] to-[#6EC747] text-white hover:from-[#6EC747] hover:to-[#5AB636] hover:shadow-lg hover:shadow-[#183263]/20 hover:-translate-y-1'
+                }`}
               >
-                Cadastrar
+                {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
               </button>
             </div>
           </form>
