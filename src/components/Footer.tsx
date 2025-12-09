@@ -223,7 +223,7 @@ export default function Footer() {
             </h3>
 
             <ul className="space-y-2">
-              {['Home', 'Produtos', 'Sobre Nós', 'Fidelidade', 'Contato', 'WhatsApp'].map(
+              {['Home', 'Produtos', 'Sobre', 'Fidelidade', 'Contato', 'WhatsApp'].map(
                 (item, index) => (
                   <li key={index}>
                     {item === 'WhatsApp' ? (
