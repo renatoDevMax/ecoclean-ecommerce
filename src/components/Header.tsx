@@ -103,7 +103,7 @@ export default function Header() {
                 </li>
               ))}
 
-              {/* Botão Lica Responde */}
+              {/* Botão Dica das Gurias */}
               <li>
                 <a
                   href="https://responde-lica.vercel.app/"
@@ -131,7 +131,7 @@ export default function Header() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    Lica Responde
+                    Dica das Gurias
                   </span>
                 </a>
               </li>
@@ -371,7 +371,7 @@ export default function Header() {
                 </li>
               ))}
 
-              {/* Link Lica Responde no mobile */}
+              {/* Link Dica das Gurias no mobile */}
               <li
                 style={{
                   animationDelay: `${['Home', 'Sobre', 'Produtos', 'Contato'].length * 100}ms`,
@@ -410,7 +410,7 @@ export default function Header() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    Lica Responde
+                    Dica das Gurias
                   </div>
                 </a>
               </li>
