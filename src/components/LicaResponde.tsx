@@ -10,7 +10,7 @@ const LicaResponde = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const licaImages = ['/licaRespondendo.png', '/licaFeliz.png', '/licaPensando.png'];
+  const licaImages = ['/meninas1.png', '/meninas2.png', '/meninas3.png', '/meninas4.png'];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -31,18 +31,19 @@ const LicaResponde = () => {
   }, []);
 
   // Efeito para alternar as imagens a cada 3 segundos com fade
+  const imageCount = licaImages.length;
   useEffect(() => {
     const interval = setInterval(() => {
       setIsTransitioning(true);
 
       setTimeout(() => {
-        setCurrentImageIndex(prevIndex => (prevIndex + 1) % licaImages.length);
+        setCurrentImageIndex(prevIndex => (prevIndex + 1) % imageCount);
         setIsTransitioning(false);
       }, 250); // Metade da duração da transição
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [imageCount]);
 
   return (
     <section
@@ -90,7 +91,7 @@ const LicaResponde = () => {
           </div>
           <h2 className="text-4xl md:text-5xl font-light mb-6 reveal-scale reveal-delay-1">
             <span className="text-[#173363]">Conheça a </span>
-            <span className="text-[#6EC747] font-normal">Lica Responde</span>
+            <span className="text-[#6EC747] font-normal">Dica das Gurias</span>
           </h2>
           <p className="text-gray-600 leading-relaxed reveal reveal-delay-2">
             Sua assistente virtual especializada em produtos de limpeza. Uma inteligência artificial
@@ -110,7 +111,7 @@ const LicaResponde = () => {
                   {/* Imagem da Lica com fade */}
                   <Image
                     src={licaImages[currentImageIndex]}
-                    alt="Lica Responde - Assistente Virtual"
+                    alt="Dica das Gurias - Assistentes Virtuais"
                     width={300}
                     height={360}
                     className={`w-full h-full object-contain object-top lg:object-center transition-opacity duration-500 ease-in-out ${
@@ -214,7 +215,7 @@ const LicaResponde = () => {
                   <span className="text-white font-semibold text-sm">L</span>
                 </div>
                 <div>
-                  <h4 className="font-medium text-[#173363]">Lica Responde</h4>
+                  <h4 className="font-medium text-[#173363]">Dica das Gurias</h4>
                   <p className="text-xs text-gray-500">Assistente Virtual</p>
                 </div>
                 <div className="ml-auto flex items-center space-x-1">
@@ -226,16 +227,19 @@ const LicaResponde = () => {
               {/* Mensagem da Lica */}
               <div className="bg-[#173363]/5 rounded-lg p-4 border-l-4 border-[#6EC747]">
                 <p className="text-gray-700 leading-relaxed">
-                  Olá! Sou a Lica, sua assistente especializada em produtos de limpeza! 🧽✨ Posso
-                  ajudar você a montar uma lista personalizada de produtos para sua casa! 🏠 Me
-                  conte suas necessidades e eu indico os melhores produtos da EcoClean! 💚
+                  Olá! Somos a Cinara e Maiara, suas assistentes especializadas em produtos de
+                  limpeza! 🧽✨ Podemos ajudar você a montar uma lista personalizada de produtos
+                  para sua casa! 🏠 Nos conte suas necessidades e indicamos os melhores produtos da
+                  EcoClean! 💚
                 </p>
               </div>
             </div>
 
             {/* Benefícios da Lica */}
             <div className="space-y-6">
-              <h3 className="text-2xl font-light text-[#173363]">Como a Lica pode ajudar você?</h3>
+              <h3 className="text-2xl font-light text-[#173363]">
+                Como as Gurias podem ajudar você?
+              </h3>
 
               <div className="space-y-4">
                 <div className="flex items-start space-x-4">
@@ -334,11 +338,11 @@ const LicaResponde = () => {
                 className="group relative px-8 py-4 bg-gradient-to-r from-[#173363] to-[#6EC747] text-white font-medium rounded-full 
                           hover:shadow-lg hover:shadow-[#6EC747]/20 hover:-translate-y-1 transition-all duration-300 overflow-hidden"
               >
-                <span className="relative z-10">Conversar com a Lica</span>
+                <span className="relative z-10">Conversar com as Gurias</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#6EC747] to-[#173363] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
               <p className="text-sm text-gray-500 mt-3">
-                Experimente agora e descubra como a Lica pode facilitar suas compras! ✨
+                Experimente agora e descubra como as Gurias podem facilitar suas compras! ✨
               </p>
             </div>
           </div>
