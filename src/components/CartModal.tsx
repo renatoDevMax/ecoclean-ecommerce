@@ -7,6 +7,7 @@ import { useCart, CartProduct } from '@/context/CartContext';
 import { useModoOrcamento } from '@/context/ModoOrcamentoContext';
 import ModalSolicitacaoOrcamento from './ModalSolicitacaoOrcamento';
 import { enviarMensagemWhatsApp, formatarItensParaOrcamentoWhatsApp } from '@/lib/api';
+import { gtagReportConversion } from '@/utils/gtag';
 
 export default function CartModal() {
   const {
@@ -75,6 +76,8 @@ export default function CartModal() {
     endereco: string;
     cpfcnpj: string;
   }) => {
+    gtagReportConversion();
+
     setIsLoadingOrcamento(true);
     setOrcamentoErrorMessage(null);
     setOrcamentoSuccessMessage(null);

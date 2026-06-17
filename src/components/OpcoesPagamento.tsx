@@ -14,6 +14,7 @@ import {
   CompraCliente,
   CompraFidelidade,
 } from '@/lib/api';
+import { gtagReportConversion } from '@/utils/gtag';
 
 interface OpcoesPagamentoProps {
   onVoltar: () => void;
@@ -348,6 +349,8 @@ export default function OpcoesPagamento({
   // Processar o pedido
   const processarPedido = async () => {
     if (!metodoPagamento) return;
+
+    gtagReportConversion();
 
     try {
       setStatusProcessamento('processando');
