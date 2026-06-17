@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
@@ -7,6 +8,7 @@ import CartModal from '@/components/CartModal';
 import { ModoOrcamentoProvider } from '@/context/ModoOrcamentoContext';
 
 const inter = Inter({ subsets: ['latin'] });
+const GOOGLE_ADS_ID = 'AW-18106872843';
 
 export const metadata: Metadata = {
   title: 'EcoClean - Fidelidade Vendas',
@@ -45,6 +47,18 @@ export default function RootLayout({
             </CartProvider>
           </ModoOrcamentoProvider>
         </AuthProvider>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GOOGLE_ADS_ID}');
+          `}
+        </Script>
       </body>
     </html>
   );
