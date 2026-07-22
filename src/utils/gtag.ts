@@ -1,4 +1,4 @@
-const GOOGLE_ADS_CONVERSION_ID = 'AW-18106872843/N7DNCPb208AcEIvog7pD';
+const GOOGLE_ADS_CONVERSION_ID = 'AW-18342488748/N7DNCPb208AcEIvog7pD';
 
 declare global {
   interface Window {

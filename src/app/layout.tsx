@@ -8,7 +8,7 @@ import CartModal from '@/components/CartModal';
 import { ModoOrcamentoProvider } from '@/context/ModoOrcamentoContext';
 
 const inter = Inter({ subsets: ['latin'] });
-const GOOGLE_ADS_ID = 'AW-18106872843';
+const GOOGLE_ADS_ID = 'AW-18342488748';
 
 export const metadata: Metadata = {
   title: 'EcoClean - Fidelidade Vendas',
