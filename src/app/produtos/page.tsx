@@ -44,7 +44,7 @@ import { RiDeleteBinLine, RiFilePaperLine } from 'react-icons/ri';
 import { PiGearFineBold, PiPaintBrushFill, PiShovelFill, PiTeaBagBold } from 'react-icons/pi';
 import { LuSquareStack, LuUtilityPole } from 'react-icons/lu';
 import { BsRulers } from 'react-icons/bs';
-import { MdSoap } from 'react-icons/md';
+import { MdOutlineCleanHands, MdSoap } from 'react-icons/md';
 import { IoWaterSharp } from 'react-icons/io5';
 import { BiLogoSquarespace } from 'react-icons/bi';
 import CategoriasCarrossel from '@/components/CategoriasCarrossel';
@@ -282,6 +282,7 @@ export default function Produtos() {
     { id: 40, nome: 'Segurança', icone: <FaShieldAlt /> },
     { id: 41, nome: 'Silicone', icone: <IoWaterSharp /> },
     { id: 42, nome: 'Tapetes', icone: <BiLogoSquarespace /> },
+    { id: 46, nome: 'Tudo Limpinho', icone: <MdOutlineCleanHands /> },
     { id: 43, nome: 'Utilidades', icone: <PiGearFineBold /> },
     { id: 44, nome: 'Varal', icone: <LuUtilityPole /> },
     { id: 45, nome: 'Vassoura', icone: <FaBrush /> },
