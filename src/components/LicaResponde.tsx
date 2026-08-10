@@ -30,20 +30,22 @@ const LicaResponde = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Efeito para alternar as imagens a cada 3 segundos com fade
+  // Alterna imagens só quando a seção está visível
   const imageCount = licaImages.length;
   useEffect(() => {
+    if (!isVisible) return;
+
     const interval = setInterval(() => {
       setIsTransitioning(true);
 
       setTimeout(() => {
         setCurrentImageIndex(prevIndex => (prevIndex + 1) % imageCount);
         setIsTransitioning(false);
-      }, 250); // Metade da duração da transição
+      }, 250);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [imageCount]);
+  }, [imageCount, isVisible]);
 
   return (
     <section

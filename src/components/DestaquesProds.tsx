@@ -7,17 +7,16 @@ import { useCart, CartProduct } from '@/context/CartContext';
 import { useModoOrcamento } from '@/context/ModoOrcamentoContext';
 import useEmblaCarousel from 'embla-carousel-react';
 
-// Interface para o produto do MongoDB
+// Interface alinhada com /api/produtos (ProdutoService)
 interface Produto {
   _id: string;
   nome: string;
-  preco: number;
+  valor: number;
   descricao: string;
   categoria: string;
   imagem: string;
-  destaque: boolean;
+  destaque?: boolean;
   cod: string;
-  ativado: boolean;
 }
 
 export default function DestaquesProds() {
@@ -43,21 +42,22 @@ export default function DestaquesProds() {
   const { addToCart } = useCart();
   const { isOrcamentoAtivo } = useModoOrcamento();
 
-  // Estados para controles do carrossel
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(true);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
-  // Buscar produtos em destaque
+  // Buscar produtos em destaque (mesmo endpoint/fluxo de /produtos)
   useEffect(() => {
     const fetchProdutosDestaque = async () => {
       try {
-        const response = await fetch('/api/produtos/destaque');
-        if (!response.ok) {
-          throw new Error('Falha ao buscar produtos em destaque');
+        const response = await fetch('/api/produtos?destaque=true');
+        const dados = await response.json();
+
+        if (!dados.success) {
+          throw new Error(dados.error || 'Falha ao buscar produtos em destaque');
         }
-        const data = await response.json();
-        setProdutosDestaque(data);
+
+        setProdutosDestaque(dados.data);
         setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);
@@ -77,12 +77,12 @@ export default function DestaquesProds() {
     });
   };
 
-  // Converter produto do MongoDB para o formato usado pelo carrinho
+  // Converter produto para o formato usado pelo carrinho
   const convertToCartProduct = (produto: Produto): Omit<CartProduct, 'quantidade'> => {
     return {
       id: produto._id,
       nome: produto.nome,
-      valor: produto.preco,
+      valor: produto.valor,
       descricao: produto.descricao,
       imagem: produto.imagem,
       categoria: produto.categoria,
@@ -106,11 +106,10 @@ export default function DestaquesProds() {
     setNextBtnEnabled(emblaApi.canScrollNext());
   }, [emblaApi]);
 
-  // Atualizar a barra de progresso
+  // Atualizar barra de progresso via DOM (evita re-render a cada frame do Embla)
   const onScroll = useCallback(() => {
-    if (!emblaApi) return;
-    const progress = emblaApi.scrollProgress();
-    setScrollProgress(progress);
+    if (!emblaApi || !progressBarRef.current) return;
+    progressBarRef.current.style.width = `${emblaApi.scrollProgress() * 100}%`;
   }, [emblaApi]);
 
   // Configurar o carrossel quando carregado
@@ -130,60 +129,34 @@ export default function DestaquesProds() {
     };
   }, [emblaApi, onSelect, onScroll]);
 
-  // Efeito para adicionar classe de animação quando a seção estiver no viewport
+  // Um único IntersectionObserver para reveal + visibilidade dos cards
   useEffect(() => {
-    // Função para detectar quando elementos entram e saem da viewport
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('reveal', 'active');
-            console.log('Elemento animado:', entry.target);
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add('reveal', 'active');
+
+          const id = entry.target.getAttribute('data-id');
+          if (id) {
+            setVisibleProducts(prev => (prev.includes(id) ? prev : [...prev, id]));
           }
+
+          observer.unobserve(entry.target);
         });
       },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -10% 0px',
-      }
+      { threshold: 0.1, rootMargin: '0px 0px -8% 0px' }
     );
 
-    // Observar seção e elementos de destaque
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
-
-      // Observar todos os elementos animáveis dentro da seção
-      const animElements = sectionRef.current.querySelectorAll('.animate-on-scroll');
-      animElements.forEach(el => {
+      sectionRef.current.querySelectorAll('.animate-on-scroll, .product-item').forEach(el => {
         observer.observe(el);
       });
     }
 
     return () => observer.disconnect();
-  }, [produtosDestaque]);
-
-  useEffect(() => {
-    // Configurar Intersection Observer para animações na entrada dos elementos
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          const id = entry.target.getAttribute('data-id');
-          if (entry.isIntersecting && id) {
-            setVisibleProducts(prev => [...prev, id]);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    // Observar todos os elementos de produtos
-    document.querySelectorAll('.product-item').forEach(el => {
-      observer.observe(el);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
   }, [produtosDestaque]);
 
   if (loading) {
@@ -219,9 +192,9 @@ export default function DestaquesProds() {
       <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-white to-transparent"></div>
       <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white to-transparent"></div>
 
-      {/* Círculos decorativos */}
-      <div className="absolute -top-20 right-20 w-96 h-96 rounded-full bg-[#173363]/3 blur-[100px] animate-on-scroll reveal-scale"></div>
-      <div className="absolute bottom-40 left-10 w-80 h-80 rounded-full bg-[#6EC747]/5 blur-[80px] animate-on-scroll reveal-scale reveal-delay-1"></div>
+      {/* Círculos decorativos (blur reduzido para menos custo de paint) */}
+      <div className="absolute -top-20 right-20 w-96 h-96 rounded-full bg-[#173363]/3 blur-[40px] animate-on-scroll reveal-scale"></div>
+      <div className="absolute bottom-40 left-10 w-80 h-80 rounded-full bg-[#6EC747]/5 blur-[40px] animate-on-scroll reveal-scale reveal-delay-1"></div>
 
       {/* Círculos decorativos adicionais para mais elegância */}
       <div
@@ -342,9 +315,7 @@ export default function DestaquesProds() {
           {/* Contêiner do carrossel */}
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {produtosDestaque
-                .filter(produto => produto.ativado)
-                .map((produto, index) => (
+              {produtosDestaque.map((produto, index) => (
                   <div
                     key={produto._id}
                     className="flex-[0_0_100%] min-w-0 pl-4 sm:flex-[0_0_50%] md:flex-[0_0_33.333%] lg:flex-[0_0_25%]"
@@ -430,7 +401,7 @@ export default function DestaquesProds() {
                               ) : (
                                 <>
                                   <div className="text-2xl font-light text-[#173363]">
-                                    {formatarPreco(produto.preco)}
+                                    {formatarPreco(produto.valor)}
                                   </div>
                                 </>
                               )}
@@ -499,8 +470,9 @@ export default function DestaquesProds() {
           {/* Barra de progresso */}
           <div className="mt-8 mx-auto w-full max-w-xs h-1 bg-gray-200 rounded-full overflow-hidden animate-on-scroll reveal-scale reveal-delay-2">
             <div
-              className="h-full bg-gradient-to-r from-[#173363] to-[#6EC747] rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${scrollProgress * 100}%` }}
+              ref={progressBarRef}
+              className="h-full bg-gradient-to-r from-[#173363] to-[#6EC747] rounded-full"
+              style={{ width: '0%' }}
             />
           </div>
         </div>

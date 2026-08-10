@@ -1,99 +1,112 @@
 'use client';
 
 import { useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
-import Partners from '@/components/Partners';
 import Footer from '@/components/Footer';
-import DestaquesProds from '@/components/DestaquesProds';
-import Fidelidade from '@/components/Fidelidade';
-import LicaResponde from '@/components/LicaResponde';
 
-// Dados dos produtos em destaque
+const Fidelidade = dynamic(() => import('@/components/Fidelidade'), {
+  loading: () => <div className="min-h-[40vh] bg-[#FAFBFD]" />,
+});
+const LicaResponde = dynamic(() => import('@/components/LicaResponde'), {
+  loading: () => <div className="min-h-[40vh] bg-white" />,
+});
+const DestaquesProds = dynamic(() => import('@/components/DestaquesProds'), {
+  loading: () => (
+    <section className="py-24 bg-[#FAFBFD] flex justify-center items-center">
+      <div className="animate-pulse h-10 w-40 bg-gray-200 rounded" />
+    </section>
+  ),
+});
+const Partners = dynamic(() => import('@/components/Partners'), {
+  loading: () => <div className="min-h-[20vh] bg-white" />,
+});
 
 export default function Home() {
-  // Função para detectar quando elementos entram e saem da viewport e ativar/desativar animações
   useEffect(() => {
-    const scrollReveal = () => {
-      const reveals = document.querySelectorAll(
-        '.reveal, .reveal-left, .reveal-right, .reveal-scale, .animate-element'
-      );
+    const revealSelector =
+      '.reveal, .reveal-left, .reveal-right, .reveal-scale, .animate-element';
+    const observed = new WeakSet<Element>();
 
-      for (let i = 0; i < reveals.length; i++) {
-        const windowHeight = window.innerHeight;
-        const elementTop = reveals[i].getBoundingClientRect().top;
-        const elementBottom = reveals[i].getBoundingClientRect().bottom;
-        const elementVisible = 150;
+    const revealObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
 
-        // Elemento está entrando na viewport por baixo
-        if (elementTop < windowHeight - elementVisible && elementBottom > 0) {
-          reveals[i].classList.add('active');
-        }
-        // Elemento está saindo da viewport (por cima ou por baixo)
-        else if (elementBottom < 0 || elementTop > windowHeight) {
-          reveals[i].classList.remove('active');
-        }
-      }
+    const observeNewElements = () => {
+      document.querySelectorAll(revealSelector).forEach(el => {
+        if (observed.has(el) || el.classList.contains('active')) return;
+        observed.add(el);
+        revealObserver.observe(el);
+      });
     };
 
-    // Função para aplicar efeito de paralaxe
-    const applyParallax = () => {
-      const parallaxBg = document.querySelector('.parallax-bg') as HTMLElement;
-      if (parallaxBg) {
-        const scrollPosition = window.scrollY;
-        parallaxBg.style.transform = `translateY(${scrollPosition * 0.5}px)`;
-      }
+    observeNewElements();
+
+    // Captura elementos das seções carregadas com dynamic()
+    const mutationObserver = new MutationObserver(observeNewElements);
+    const main = document.querySelector('main');
+    if (main) {
+      mutationObserver.observe(main, { childList: true, subtree: true });
+    }
+
+    const parallaxBg = document.querySelector('.parallax-bg') as HTMLElement | null;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!parallaxBg || ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        parallaxBg.style.transform = `translate3d(0, ${window.scrollY * 0.35}px, 0)`;
+        ticking = false;
+      });
     };
 
-    window.addEventListener('scroll', scrollReveal);
-    window.addEventListener('scroll', applyParallax);
-    scrollReveal(); // Verificar elementos visíveis no carregamento inicial
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', scrollReveal);
-      window.removeEventListener('scroll', applyParallax);
+      revealObserver.disconnect();
+      mutationObserver.disconnect();
+      window.removeEventListener('scroll', onScroll);
     };
   }, []);
-
-  // Formatar preço em reais
-  const formatarPreco = (valor: number) => {
-    return valor.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    });
-  };
 
   return (
     <main className="min-h-screen">
       <Header />
 
-      {/* Hero Section com efeito paralaxe melhorado */}
+      {/* Hero Section */}
       <section className="relative flex items-center justify-center h-screen overflow-hidden">
-        {/* Imagem de fundo com efeito paralaxe via JavaScript */}
         <div
-          className="parallax-bg absolute w-full h-150 top-0 left-0"
+          className="parallax-bg absolute w-full top-0 left-0"
           style={{
             backgroundImage: 'url("/sec1.jpg")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            height: '150%', // Tamanho extra para permitir movimento
-            willChange: 'transform',
+            height: '130%',
           }}
-        ></div>
+        />
 
-        {/* Overlay para melhorar a legibilidade do texto */}
-        <div className="absolute inset-0 bg-[#173363]/60 backdrop-blur-[2px]"></div>
+        {/* Overlay sem backdrop-blur (mais leve no GPU) */}
+        <div className="absolute inset-0 bg-[#173363]/65" />
 
-        {/* Conteúdo centralizado */}
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="max-w-2xl mx-auto space-y-8">
             <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
               <span className="block mb-2 animate-element animate-fade-in-left animate-delay-100">
                 Compromisso com a
               </span>
-              <span className="block text-[#8ED96A] mb-2 animate-element animate-shimmer">
+              <span className="block text-[#8ED96A] mb-2 animate-element animate-fade-in-up animate-delay-200">
                 excelência e qualidade
               </span>
-              <span className="block animate-element animate-fade-in-right animate-delay-200">
+              <span className="block animate-element animate-fade-in-right animate-delay-300">
                 para o seu lar
               </span>
             </h1>
@@ -115,27 +128,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-10 animate-fade-in animate-delay-700">
           <div className="w-8 h-14 border-2 border-white rounded-full flex justify-center p-2">
-            <div className="w-1 h-3 bg-white rounded-full animate-pulse-slow"></div>
+            <div className="w-1 h-3 bg-white rounded-full animate-pulse-slow" />
           </div>
         </div>
       </section>
 
-      {/* Seção de Programa de Fidelidade */}
       <Fidelidade />
-
-      {/* Seção da Lica Responde */}
       <LicaResponde />
-
-      {/* Seção de Produtos em Destaque */}
       <DestaquesProds />
-
-      {/* Seção de Marcas Parceiras */}
       <Partners />
-
-      {/* Footer */}
       <Footer />
     </main>
   );
