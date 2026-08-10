@@ -16,18 +16,10 @@ export const metadata: Metadata = {
   description: 'Aplicação de fidelidade para vendas',
   icons: {
     icon: [
-      { url: '/logocon.png', type: 'image/png' },
-      { url: '/logocon.png', sizes: '32x32', type: 'image/png' },
-      { url: '/logocon.png', sizes: '16x16', type: 'image/png' },
+      { url: '/logoicon.jpg', type: 'image/jpeg', sizes: '32x32' },
     ],
-    shortcut: '/logocon.png',
-    apple: '/logocon.png',
-    other: [
-      {
-        rel: 'apple-touch-icon-precomposed',
-        url: '/logocon.png',
-      },
-    ],
+    shortcut: '/logoicon.jpg',
+    apple: '/logoicon.jpg',
   },
   manifest: '/manifest.json',
 };
