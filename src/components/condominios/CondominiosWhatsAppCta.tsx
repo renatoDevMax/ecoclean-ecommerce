@@ -1,5 +1,9 @@
+'use client';
+
+import type { MouseEvent } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { getCondominiosWhatsAppUrl } from '@/lib/condominiosWhatsApp';
+import { gtagReportWhatsAppConversion } from '@/utils/gtag';
 
 type Variant = 'primary' | 'secondary' | 'outline' | 'light';
 
@@ -33,12 +37,20 @@ export default function CondominiosWhatsAppCta({
   message,
   id,
 }: CondominiosWhatsAppCtaProps) {
+  const href = getCondominiosWhatsAppUrl(message);
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    gtagReportWhatsAppConversion(href);
+  };
+
   return (
     <a
       id={id}
-      href={getCondominiosWhatsAppUrl(message)}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       data-conversion="click_whatsapp"
       data-location={id ?? 'whatsapp-cta'}
       aria-label={label}

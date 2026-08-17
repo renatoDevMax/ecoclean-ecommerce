@@ -1,7 +1,10 @@
 const GOOGLE_ADS_CONVERSION_ID = 'AW-18342488748/N7DNCPb208AcEIvog7pD';
 
-/** Conversão Google Ads — clique WhatsApp na landing /empresas */
-export const EMPRESAS_WHATSAPP_CONVERSION_ID = 'AW-18342488748/k802CPy83-IcEKzVsKpE';
+/** Conversão Google Ads — clique WhatsApp nas landings /empresas e /condominios */
+export const LANDING_WHATSAPP_CONVERSION_ID = 'AW-18342488748/k802CPy83-IcEKzVsKpE';
+
+/** @deprecated Use LANDING_WHATSAPP_CONVERSION_ID */
+export const EMPRESAS_WHATSAPP_CONVERSION_ID = LANDING_WHATSAPP_CONVERSION_ID;
 
 declare global {
   interface Window {
@@ -29,11 +32,11 @@ export function gtagReportConversion(url?: string) {
 }
 
 /**
- * Dispara conversão do Google Ads no clique WhatsApp de /empresas
- * e abre o link em nova aba após o callback (ou fallback se gtag falhar).
- * Seguro para uso em Client Components; no-op no SSR.
+ * Dispara conversão do Google Ads no clique WhatsApp das landings
+ * (/empresas e /condominios) e abre o link em nova aba após o callback
+ * (ou fallback se gtag falhar). Seguro para Client Components; no-op no SSR.
  */
-export function gtagReportEmpresasWhatsAppConversion(url: string): boolean {
+export function gtagReportWhatsAppConversion(url: string): boolean {
   if (typeof window === 'undefined') {
     return false;
   }
@@ -51,7 +54,7 @@ export function gtagReportEmpresasWhatsAppConversion(url: string): boolean {
   }
 
   window.gtag('event', 'conversion', {
-    send_to: EMPRESAS_WHATSAPP_CONVERSION_ID,
+    send_to: LANDING_WHATSAPP_CONVERSION_ID,
     event_callback: openWhatsApp,
     event_timeout: 2000,
   });
@@ -61,3 +64,6 @@ export function gtagReportEmpresasWhatsAppConversion(url: string): boolean {
 
   return false;
 }
+
+/** @deprecated Use gtagReportWhatsAppConversion */
+export const gtagReportEmpresasWhatsAppConversion = gtagReportWhatsAppConversion;

@@ -1,9 +1,18 @@
 'use client';
 
+import type { MouseEvent } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { getCondominiosWhatsAppUrl } from '@/lib/condominiosWhatsApp';
+import { gtagReportWhatsAppConversion } from '@/utils/gtag';
 
 export default function CondominiosMobileStickyCta() {
+  const href = getCondominiosWhatsAppUrl();
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    gtagReportWhatsAppConversion(href);
+  };
+
   return (
     <div
       className="fixed inset-x-0 bottom-0 z-50 md:hidden pointer-events-none"
@@ -11,9 +20,10 @@ export default function CondominiosMobileStickyCta() {
     >
       <div className="pointer-events-auto bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-3 shadow-[0_-4px_20px_rgba(23,51,99,0.08)]">
         <a
-          href={getCondominiosWhatsAppUrl()}
+          href={href}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={handleClick}
           data-conversion="click_whatsapp"
           data-location="mobile-sticky"
           aria-label="Solicitar orçamento pelo WhatsApp"

@@ -3,14 +3,14 @@
 import type { MouseEvent } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { getEmpresasWhatsAppUrl } from '@/lib/empresasWhatsApp';
-import { gtagReportEmpresasWhatsAppConversion } from '@/utils/gtag';
+import { gtagReportWhatsAppConversion } from '@/utils/gtag';
 
 export default function EmpresasMobileStickyCta() {
   const href = getEmpresasWhatsAppUrl();
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    gtagReportEmpresasWhatsAppConversion(href);
+    gtagReportWhatsAppConversion(href);
   };
 
   return (

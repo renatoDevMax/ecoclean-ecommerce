@@ -3,7 +3,7 @@
 import type { MouseEvent } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { getEmpresasWhatsAppUrl } from '@/lib/empresasWhatsApp';
-import { gtagReportEmpresasWhatsAppConversion } from '@/utils/gtag';
+import { gtagReportWhatsAppConversion } from '@/utils/gtag';
 
 type Variant = 'primary' | 'secondary' | 'outline' | 'light';
 
@@ -41,7 +41,7 @@ export default function EmpresasWhatsAppCta({
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    gtagReportEmpresasWhatsAppConversion(href);
+    gtagReportWhatsAppConversion(href);
   };
 
   return (
