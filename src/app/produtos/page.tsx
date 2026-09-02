@@ -364,7 +364,8 @@ export default function Produtos() {
 
             <p className="text-xl text-white/90 drop-shadow-md mb-8">
               Seus pedidos de produtos são verificados no estoque, entramos em contato com você
-              sempre para alinhar os produtos disponíveis no estoque frente ao pedido.
+              sempre para alinhar os produtos disponíveis no estoque e seus respectivos valores
+              frente ao pedido.
             </p>
 
             <div className="h-1 w-24 bg-gradient-to-r from-[#173363] to-[#6EC747] mx-auto rounded-full"></div>
